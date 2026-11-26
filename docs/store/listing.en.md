@@ -6,7 +6,7 @@ Switch the current page to another environment, keeping the same path.
 
 ## Detailed description
 
-domain-hopper switches the tab you are on to another environment of the same site (production, staging, local) and keeps the path, query and hash.
+Domain Hopper switches the tab you are on to another environment of the same site (production, staging, local) and keeps the path, query and hash.
 
 - Register the current page as a project, or add it to an existing project as another environment.
 - Click an environment to switch the current tab to it.
@@ -14,7 +14,7 @@ domain-hopper switches the tab you are on to another environment of the same sit
 - Add environments, change their scheme and host, and rename, reorder or delete projects and environments from the settings page.
 - Works with http and https pages, including localhost and ports.
 
-domain-hopper makes no network requests and has no analytics. Your projects are stored with chrome.storage.sync: if you have turned on Chrome sync they follow you across your own Chrome browsers, otherwise they stay on this device only.
+Domain Hopper makes no network requests and has no analytics. Your projects are stored with chrome.storage.sync: if you have turned on Chrome sync they follow you across your own Chrome browsers, otherwise they stay on this device only.
 
 ## Permission justification
 

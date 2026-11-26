@@ -1,4 +1,4 @@
-# domain-hopper
+# Domain Hopper
 
 A Chrome extension that switches the current tab to another environment of the same site (production, staging, local), keeping the path, query and hash.
 

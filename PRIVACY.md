@@ -2,7 +2,7 @@
 
 ## English
 
-domain-hopper does not collect, transmit or share any data. It makes no network requests and contains no analytics or error-reporting code.
+Domain Hopper does not collect, transmit or share any data. It makes no network requests and contains no analytics or error-reporting code.
 
 **Data read**
 - The URL of the current tab, only at the moment you press the toolbar button (using the `activeTab` permission). It is used to work out the target address and is not stored unless you register it.
@@ -19,7 +19,7 @@ Contact: https://github.com/shinespark/domain-hopper/issues
 
 ## 日本語
 
-domain-hopper は、データを収集・送信・共有しません。通信は一切行わず、解析やエラー送信のコードも含まれていません。
+Domain Hopper は、データを収集・送信・共有しません。通信は一切行わず、解析やエラー送信のコードも含まれていません。
 
 **読み取るデータ**
 - ツールバーのボタンを押した時点での今のタブの URL だけです（`activeTab` 権限を使います）。切り替え先を決めるために使い、登録しない限り保存しません。

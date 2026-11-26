@@ -1,6 +1,6 @@
 {
   "extName": {
-    "message": "domain-hopper"
+    "message": "Domain Hopper"
   },
   "extDescription": {
     "message": "今のページを、パスはそのままで別の環境に切り替えます。"
@@ -41,7 +41,7 @@
     "message": "作成"
   },
   "optionsTitle": {
-    "message": "domain-hopper 設定"
+    "message": "Domain Hopper 設定"
   },
   "noProjects": {
     "message": "プロジェクトがありません。ページを開いてツールバーのボタンから登録してください。"
