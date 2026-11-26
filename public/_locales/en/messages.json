@@ -10,5 +10,11 @@
   },
   "errorLoadFailed": {
     "message": "Couldn't load your projects. Please reopen this page."
+  },
+  "unsupportedPage": {
+    "message": "This page can't be switched."
+  },
+  "openSettings": {
+    "message": "Open settings"
   }
 }

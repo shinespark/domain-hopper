@@ -10,5 +10,11 @@
   },
   "errorLoadFailed": {
     "message": "プロジェクトを読み込めませんでした。開き直してください。"
+  },
+  "unsupportedPage": {
+    "message": "このページでは使えません。"
+  },
+  "openSettings": {
+    "message": "設定を開く"
   }
 }
