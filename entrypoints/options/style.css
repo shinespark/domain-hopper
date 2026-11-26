@@ -94,8 +94,7 @@ body {
 }
 
 .text-input,
-.scheme-select,
-.add-block-form button {
+.scheme-select {
   padding: 6px 8px;
   border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
   border-radius: 6px;
@@ -158,14 +157,8 @@ body {
   min-width: 0;
 }
 
-.scheme-select,
-.add-block-form button {
+.scheme-select {
   flex-shrink: 0;
-}
-
-.add-block-form button {
-  padding: 6px 12px;
-  cursor: pointer;
 }
 
 .field-error {

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import { CHECK, Icon } from '@/components/Icon';
 import { t } from '@/lib/i18n';
 import { addEnvironment, createProject } from '@/lib/projects';
 import type { OpResult, Project } from '@/lib/projects';
@@ -70,8 +71,14 @@ export default function RegisterPanel({ origin, projects, update }: Props) {
               </select>
             </span>
           )}
-          <button type="submit" className="action" disabled={mode === 'create' ? name.trim() === '' : target === ''}>
-            {mode === 'create' ? t('create') : t('confirm')}
+          <button
+            type="submit"
+            className="action icon-action"
+            aria-label={mode === 'create' ? t('create') : t('confirm')}
+            title={mode === 'create' ? t('create') : t('confirm')}
+            disabled={mode === 'create' ? name.trim() === '' : target === ''}
+          >
+            <Icon path={CHECK} />
           </button>
         </form>
       )}
