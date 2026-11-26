@@ -2,15 +2,12 @@
   "name": "domain-hopper",
   "version": "0.0.0",
   "private": true,
-  "description": "Switch the current tab to another environment, keeping the path.",
+  "description": "Switch the current page to another environment, keeping the same path.",
   "type": "module",
   "scripts": {
     "dev": "wxt",
-    "dev:firefox": "wxt -b firefox",
     "build": "wxt build",
-    "build:firefox": "wxt build -b firefox",
     "zip": "wxt zip",
-    "zip:firefox": "wxt zip -b firefox",
     "test": "vitest run",
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare"
@@ -28,7 +25,6 @@
     "happy-dom": "^21.0.4",
     "typescript": "^5.9.3",
     "vitest": "^5.1.2",
-    "web-ext": "^10.5.0",
     "wxt": "^0.21.3"
   }
 }
