@@ -1,9 +1,9 @@
-import { useEffect, useRef } from "react";
-import type { MouseEvent as ReactMouseEvent, KeyboardEvent } from "react";
-import type { Project } from "@/lib/projects";
-import type { ActiveTab } from "@/lib/tabs";
-import { openInTab } from "@/lib/tabs";
-import { buildSwitchedUrl, defaultLabel } from "@/lib/url";
+import { useEffect, useRef } from 'react';
+import type { MouseEvent as ReactMouseEvent, KeyboardEvent } from 'react';
+import type { Project } from '@/lib/projects';
+import type { ActiveTab } from '@/lib/tabs';
+import { openInTab } from '@/lib/tabs';
+import { buildSwitchedUrl, defaultLabel } from '@/lib/url';
 
 type Props = { project: Project; tab: ActiveTab; currentOrigin: string };
 
@@ -11,9 +11,7 @@ export default function SwitchList({ project, tab, currentOrigin }: Props) {
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
-    const index = project.environments.findIndex(
-      (e) => e.origin === currentOrigin,
-    );
+    const index = project.environments.findIndex((e) => e.origin === currentOrigin);
     refs.current[Math.max(index, 0)]?.focus();
   }, [project, currentOrigin]);
 
@@ -24,10 +22,10 @@ export default function SwitchList({ project, tab, currentOrigin }: Props) {
   const onKeyDown = (event: KeyboardEvent, index: number) => {
     const last = project.environments.length - 1;
     let next: number | null = null;
-    if (event.key === "ArrowDown") next = Math.min(index + 1, last);
-    else if (event.key === "ArrowUp") next = Math.max(index - 1, 0);
-    else if (event.key === "Home") next = 0;
-    else if (event.key === "End") next = last;
+    if (event.key === 'ArrowDown') next = Math.min(index + 1, last);
+    else if (event.key === 'ArrowUp') next = Math.max(index - 1, 0);
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = last;
     if (next === null) return;
     event.preventDefault();
     refs.current[next]?.focus();
@@ -46,13 +44,11 @@ export default function SwitchList({ project, tab, currentOrigin }: Props) {
               <button
                 type="button"
                 className="env-row"
-                aria-current={env.origin === currentOrigin ? "true" : undefined}
+                aria-current={env.origin === currentOrigin ? 'true' : undefined}
                 ref={(el) => {
                   refs.current[i] = el;
                 }}
-                onClick={(e: ReactMouseEvent) =>
-                  go(env.origin, e.metaKey || e.ctrlKey)
-                }
+                onClick={(e: ReactMouseEvent) => go(env.origin, e.metaKey || e.ctrlKey)}
                 onAuxClick={(e: ReactMouseEvent) => {
                   if (e.button === 1) go(env.origin, true);
                 }}

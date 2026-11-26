@@ -27,7 +27,12 @@
     "message": "Add to existing"
   },
   "originTaken": {
-    "message": "This site is already registered in \"$1\"."
+    "message": "This site is already registered in \"$PROJECT$\".",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "Add"

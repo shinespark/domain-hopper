@@ -27,7 +27,12 @@
     "message": "既存に追加"
   },
   "originTaken": {
-    "message": "このサイトはすでに「$1」に登録されています。"
+    "message": "このサイトはすでに「$PROJECT$」に登録されています。",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      }
+    }
   },
   "confirm": {
     "message": "追加"

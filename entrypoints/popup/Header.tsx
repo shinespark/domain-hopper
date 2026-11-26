@@ -1,4 +1,4 @@
-import { t } from "@/lib/i18n";
+import { t } from '@/lib/i18n';
 
 export default function Header({ title }: { title: string }) {
   return (
@@ -9,8 +9,8 @@ export default function Header({ title }: { title: string }) {
       <button
         type="button"
         className="gear"
-        aria-label={t("openSettings")}
-        title={t("openSettings")}
+        aria-label={t('openSettings')}
+        title={t('openSettings')}
         onClick={() => browser.runtime.openOptionsPage()}
       >
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">

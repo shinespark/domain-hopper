@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { t } from "@/lib/i18n";
-import { findProjectByOrigin } from "@/lib/projects";
-import { getActiveTab } from "@/lib/tabs";
-import type { ActiveTab } from "@/lib/tabs";
-import { toOrigin } from "@/lib/url";
-import { useProjects } from "@/lib/use-projects";
-import Header from "./Header";
-import RegisterPanel from "./RegisterPanel";
-import SwitchList from "./SwitchList";
-import "./style.css";
+import { useEffect, useState } from 'react';
+import { t } from '@/lib/i18n';
+import { findProjectByOrigin } from '@/lib/projects';
+import { getActiveTab } from '@/lib/tabs';
+import type { ActiveTab } from '@/lib/tabs';
+import { toOrigin } from '@/lib/url';
+import { useProjects } from '@/lib/use-projects';
+import Header from './Header';
+import RegisterPanel from './RegisterPanel';
+import SwitchList from './SwitchList';
+import './style.css';
 
 export default function App() {
   const { projects, error, update } = useProjects();
@@ -25,18 +25,16 @@ export default function App() {
 
   let body;
   if (!tab || !origin) {
-    body = <p className="message">{t("unsupportedPage")}</p>;
+    body = <p className="message">{t('unsupportedPage')}</p>;
   } else if (project && project.environments.length > 0) {
     body = <SwitchList project={project} tab={tab} currentOrigin={origin} />;
   } else {
-    body = (
-      <RegisterPanel origin={origin} projects={projects} update={update} />
-    );
+    body = <RegisterPanel origin={origin} projects={projects} update={update} />;
   }
 
   return (
     <main className="popup">
-      <Header title={t("extName")} />
+      <Header title={t('extName')} />
       {error && (
         <p className="error" role="alert">
           {error}
