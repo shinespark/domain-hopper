@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import {
   addEnvironment,
+  addProject,
   changeOrigin,
   createProject,
   findProjectByOrigin,
@@ -217,5 +218,15 @@ describe('changeOrigin', () => {
 
   test('同じ origin のままなら変更なしで成功する', () => {
     expect(changeOrigin([a, b], 'a', 'a1', 'https://a.example.com')).toEqual({ ok: true, projects: [a, b] });
+  });
+});
+
+describe('addProject', () => {
+  test('行き先のないプロジェクトを末尾に足す', () => {
+    const a = project('a', 'A');
+    const result = addProject([a], 'New');
+    expect(result).toHaveLength(2);
+    expect(result[0]).toBe(a);
+    expect(result[1]).toEqual({ id: expect.any(String), name: 'New', environments: [] });
   });
 });

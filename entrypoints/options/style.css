@@ -14,6 +14,42 @@ body {
   box-sizing: border-box;
 }
 
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.page-header h1 {
+  margin: 0;
+}
+
+.primary-button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: light-dark(#1a56db, #2563eb);
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: light-dark(#1e429f, #1d4ed8);
+}
+
+.add-project-form {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+  min-width: 0;
+  max-width: 420px;
+}
+
 .error {
   padding: 8px;
   border: 1px solid currentColor;

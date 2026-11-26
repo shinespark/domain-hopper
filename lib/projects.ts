@@ -37,6 +37,10 @@ export function createProject(projects: Project[], name: string, origin: string)
   return { ok: true, projects: [...projects, project] };
 }
 
+export function addProject(projects: Project[], name: string): Project[] {
+  return [...projects, { id: crypto.randomUUID(), name, environments: [] }];
+}
+
 export function addEnvironment(projects: Project[], projectId: string, origin: string): OpResult {
   const taken = findProjectByOrigin(projects, origin);
   if (taken) return { ok: false, reason: 'origin-taken', projectName: taken.name };

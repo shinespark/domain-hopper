@@ -302,4 +302,46 @@ describe('options page', () => {
       expect(await envs('p2')).toEqual([]);
     });
   });
+
+  describe('adding projects', () => {
+    const openForm = async () => {
+      await userEvent.click(screen.getByRole('button', { name: t('addProject') }));
+      const form = screen.getByRole('form', { name: t('addProject') });
+      return { form, name: within(form).getByRole('textbox', { name: t('projectNameLabel') }) as HTMLInputElement };
+    };
+
+    it('adds an empty project at the end on Enter', async () => {
+      await seed();
+      render(<App />);
+      await heading('alpha');
+      const { name } = await openForm();
+      expect(document.activeElement).toBe(name);
+      await userEvent.type(name, 'gamma{Enter}');
+      await waitFor(async () => expect((await loadProjects()).map((p) => p.name)).toEqual(['alpha', 'beta', 'gamma']));
+      expect((await loadProjects())[2]!.environments).toEqual([]);
+      expect(await heading('gamma')).toBeTruthy();
+      expect(screen.queryByRole('form', { name: t('addProject') })).toBeNull();
+    });
+
+    it('works from the empty state', async () => {
+      render(<App />);
+      await screen.findByText(t('noProjects'));
+      const { form, name } = await openForm();
+      await userEvent.type(name, 'first');
+      await userEvent.click(within(form).getByRole('button', { name: t('confirm') }));
+      expect(await heading('first')).toBeTruthy();
+    });
+
+    it('does not add a blank name and can cancel', async () => {
+      await seed();
+      render(<App />);
+      await heading('alpha');
+      const { form, name } = await openForm();
+      await userEvent.type(name, '   {Enter}');
+      expect((within(form).getByRole('button', { name: t('confirm') }) as HTMLButtonElement).disabled).toBe(true);
+      await userEvent.click(within(form).getByRole('button', { name: t('cancel') }));
+      expect(screen.queryByRole('form', { name: t('addProject') })).toBeNull();
+      expect((await loadProjects()).map((p) => p.name)).toEqual(['alpha', 'beta']);
+    });
+  });
 });

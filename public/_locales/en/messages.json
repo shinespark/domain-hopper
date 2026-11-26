@@ -44,7 +44,7 @@
     "message": "Domain Hopper settings"
   },
   "noProjects": {
-    "message": "No projects yet. Open a page and register it from the toolbar button."
+    "message": "No projects yet. Use “Add project” above, or open a page and register it from the toolbar button."
   },
   "environmentLabel": {
     "message": "Environment label"
@@ -81,5 +81,8 @@
   },
   "clickToEdit": {
     "message": "Click to edit"
+  },
+  "addProject": {
+    "message": "Add project"
   }
 }

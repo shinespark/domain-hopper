@@ -11,7 +11,7 @@ Domain Hopper switches the tab you are on to another environment of the same sit
 - Register the current page as a project, or add it to an existing project as another environment.
 - Click an environment to switch the current tab to it.
 - Cmd/Ctrl-click or middle-click to open it in a background tab next to the current one.
-- Add environments, change their scheme and host, and rename, reorder or delete projects and environments from the settings page.
+- Add projects and environments, change their scheme and host, and rename, reorder or delete projects and environments from the settings page.
 - Works with http and https pages, including localhost and ports.
 
 Domain Hopper makes no network requests and has no analytics. Your projects are stored with chrome.storage.sync: if you have turned on Chrome sync they follow you across your own Chrome browsers, otherwise they stay on this device only.

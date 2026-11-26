@@ -44,7 +44,7 @@
     "message": "Domain Hopper 設定"
   },
   "noProjects": {
-    "message": "プロジェクトがありません。ページを開いてツールバーのボタンから登録してください。"
+    "message": "プロジェクトがありません。上の「プロジェクトを追加」を使うか、ページを開いてツールバーのボタンから登録してください。"
   },
   "environmentLabel": {
     "message": "環境のラベル"
@@ -81,5 +81,8 @@
   },
   "clickToEdit": {
     "message": "クリックして編集"
+  },
+  "addProject": {
+    "message": "プロジェクトを追加"
   }
 }

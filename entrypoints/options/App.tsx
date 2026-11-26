@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { t } from '@/lib/i18n';
 import { useProjects } from '@/lib/use-projects';
+import AddProject from './AddProject';
 import ProjectCard from './ProjectCard';
 import './style.css';
 
@@ -13,7 +14,10 @@ export default function App() {
 
   return (
     <main className="options">
-      <h1>{t('extName')}</h1>
+      <header className="page-header">
+        <h1>{t('extName')}</h1>
+        <AddProject update={update} />
+      </header>
       {error && <p role="alert" className="error">{error}</p>}
       {projects && projects.length === 0 && <p>{t('noProjects')}</p>}
       {projects && projects.length > 0 && (
