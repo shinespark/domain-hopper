@@ -103,10 +103,11 @@ body {
 .message,
 .error {
   margin: 8px 0;
+  overflow-wrap: anywhere;
 }
 
 .error {
-  color: #c62828;
+  color: light-dark(#c62828, #ff8a80);
 }
 
 .register-origin {

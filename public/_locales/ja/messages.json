@@ -37,6 +37,9 @@
   "confirm": {
     "message": "追加"
   },
+  "create": {
+    "message": "作成"
+  },
   "optionsTitle": {
     "message": "domain-hopper 設定"
   },

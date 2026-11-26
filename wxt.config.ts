@@ -1,6 +1,7 @@
 import { defineConfig } from 'wxt';
 
 export default defineConfig({
+  vite: () => ({ build: { modulePreload: { polyfill: false } } }),
   modules: ['@wxt-dev/module-react'],
   manifest: {
     name: '__MSG_extName__',

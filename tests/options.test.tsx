@@ -1,4 +1,4 @@
-import { cleanup, render, screen, waitFor, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -49,6 +49,18 @@ describe('options page', () => {
     render(<App />);
     expect(await screen.findByText(t('noProjects'))).toBeTruthy();
     expect(screen.queryByRole('button', { name: /add/i })).toBeNull();
+  });
+
+  it('ignores Enter while IME composing', async () => {
+    await seed();
+    render(<App />);
+    const name = (await screen.findByDisplayValue('alpha')) as HTMLInputElement;
+    await userEvent.clear(name);
+    await userEvent.type(name, 'gamma');
+    fireEvent.keyDown(name, { key: 'Enter', isComposing: true });
+    expect(document.activeElement).toBe(name);
+    expect(name.value).toBe('gamma');
+    expect((await loadProjects())[0]!.name).toBe('alpha');
   });
 
   it('renames a project on Enter and an environment on blur', async () => {

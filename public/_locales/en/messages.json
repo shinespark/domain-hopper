@@ -37,6 +37,9 @@
   "confirm": {
     "message": "Add"
   },
+  "create": {
+    "message": "Create"
+  },
   "optionsTitle": {
     "message": "domain-hopper settings"
   },

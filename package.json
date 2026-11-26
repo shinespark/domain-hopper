@@ -1,6 +1,6 @@
 {
   "name": "domain-hopper",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Switch the current page to another environment, keeping the same path.",
   "type": "module",

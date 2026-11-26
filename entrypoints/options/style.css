@@ -70,7 +70,7 @@ body {
 }
 
 .danger {
-  color: #b00020;
+  color: light-dark(#b00020, #ff8a80);
 }
 
 .origin {

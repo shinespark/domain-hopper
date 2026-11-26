@@ -69,7 +69,7 @@ export default function RegisterPanel({ origin, projects, update }: Props) {
             </select>
           )}
           <button type="submit" className="action" disabled={mode === 'create' ? name.trim() === '' : target === ''}>
-            {t('confirm')}
+            {mode === 'create' ? t('create') : t('confirm')}
           </button>
         </form>
       )}

@@ -59,7 +59,7 @@ describe('popup register', () => {
       name: t('projectNameLabel'),
     }) as HTMLInputElement;
     expect(input.value).toBe('stg3.example.com');
-    await userEvent.click(screen.getByRole('button', { name: t('confirm') }));
+    await userEvent.click(screen.getByRole('button', { name: t('create') }));
     const row = await screen.findByRole('button', {
       name: /stg3\.example\.com/,
     });
@@ -76,7 +76,7 @@ describe('popup register', () => {
     const input = screen.getByRole('textbox', { name: t('projectNameLabel') });
     await userEvent.clear(input);
     await userEvent.type(input, '   ');
-    expect((screen.getByRole('button', { name: t('confirm') }) as HTMLButtonElement).disabled).toBe(true);
+    expect((screen.getByRole('button', { name: t('create') }) as HTMLButtonElement).disabled).toBe(true);
   });
 
   it('hides add-to-existing when there are no projects', async () => {
@@ -119,7 +119,7 @@ describe('popup register', () => {
       },
       projectOrder: ['p1', 'p9'],
     });
-    await waitFor(() => expect(screen.queryByRole('button', { name: t('confirm') })).toBeNull());
+    await waitFor(() => expect(screen.queryByRole('button', { name: t('create') })).toBeNull());
   });
 
   it('shows t(originTaken) when update reports origin-taken', async () => {
@@ -130,7 +130,7 @@ describe('popup register', () => {
     });
     render(<RegisterPanel origin="https://stg3.example.com" projects={[project]} update={update} />);
     await userEvent.click(screen.getByRole('button', { name: t('createProject') }));
-    await userEvent.click(screen.getByRole('button', { name: t('confirm') }));
+    await userEvent.click(screen.getByRole('button', { name: t('create') }));
     expect((await screen.findByRole('alert')).textContent).toBe(t('originTaken', 'my-service'));
   });
 
