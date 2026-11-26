@@ -7,7 +7,7 @@ A Chrome extension that switches the current tab to another environment of the s
 - Register the current page as a project, or add it to an existing project as another environment.
 - Click an environment in the popup to switch the current tab.
 - Cmd/Ctrl-click or middle-click to open it in a background tab to the right of the current one.
-- Rename, reorder and delete projects and environments on the options page (gear icon in the popup).
+- On the options page (gear icon in the popup), add environments, change their scheme and host, and rename, reorder or delete projects and environments.
 - English and Japanese UI.
 
 ## Usage
@@ -15,7 +15,7 @@ A Chrome extension that switches the current tab to another environment of the s
 1. Open a page and click the toolbar button.
 2. Register it as a new project, or add it to an existing one. Repeat for each environment.
 3. From any registered page, click another environment to jump there with the same path.
-4. Open the settings page from the gear icon to rename, reorder or delete.
+4. Open the settings page from the gear icon to add environments, change a scheme or host, rename, reorder or delete.
 
 ## Permissions and privacy
 
@@ -39,5 +39,5 @@ npm run zip      # build the zip for the Chrome Web Store
 
 - 今のページをプロジェクトとして登録するか、既存のプロジェクトに環境として追加します。
 - ポップアップで環境をクリックすると切り替わります。Cmd/Ctrl を押しながらクリックするか中クリックすると、今のタブの右隣にバックグラウンドで開きます。
-- 歯車アイコンから開く設定ページで、プロジェクトと環境の名前変更・並べ替え・削除ができます。
+- 歯車アイコンから開く設定ページで、環境の追加、スキームやホストの変更、プロジェクトと環境の名前変更・並べ替え・削除ができます。
 - 権限は `activeTab` と `storage` だけです。通信は一切行いません。詳しくは [PRIVACY.md](PRIVACY.md) を参照してください。

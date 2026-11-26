@@ -78,5 +78,8 @@
   },
   "invalidHost": {
     "message": "Enter a host such as example.com or localhost:3000."
+  },
+  "addEnvironment": {
+    "message": "Add environment"
   }
 }

@@ -54,10 +54,9 @@ describe('options page', () => {
     expect(document.title).toBe(t('optionsTitle'));
   });
 
-  it('shows the empty message and no add controls', async () => {
+  it('shows the empty message', async () => {
     render(<App />);
     expect(await screen.findByText(t('noProjects'))).toBeTruthy();
-    expect(screen.queryByRole('button', { name: /add/i })).toBeNull();
   });
 
   it('ignores Enter while IME composing', async () => {
@@ -199,6 +198,81 @@ describe('options page', () => {
       fireEvent.keyDown(host('Production'), { key: 'Enter', isComposing: true });
       expect(document.activeElement).toBe(host('Production'));
       expect(await origins()).toEqual(['https://example.com', 'http://example.com']);
+    });
+  });
+
+  describe('adding environments', () => {
+    const project = (name: string) => screen.getByRole('heading', { name }).closest('li') as HTMLElement;
+    const openForm = async (name: string) => {
+      await userEvent.click(btn(project(name), 'addEnvironment'));
+      const form = screen.getByRole('form', { name: t('addEnvironment') });
+      return {
+        form,
+        scheme: within(form).getByRole('combobox', { name: t('schemeLabel') }) as HTMLSelectElement,
+        host: within(form).getByRole('textbox', { name: t('hostLabel') }) as HTMLInputElement,
+      };
+    };
+    const envs = async (id: string) => (await loadProjects()).find((p) => p.id === id)!.environments;
+
+    it('adds an https environment on Enter with the host as its label', async () => {
+      await seed();
+      render(<App />);
+      await heading('alpha');
+      const { scheme, host } = await openForm('alpha');
+      expect(scheme.value).toBe('https:');
+      expect(document.activeElement).toBe(host);
+      await userEvent.type(host, 'stg.example.com{Enter}');
+      await waitFor(async () =>
+        expect((await envs('p1')).map((e) => [e.label, e.origin])).toEqual([
+          ['Production', 'https://example.com'],
+          ['Insecure', 'http://example.com'],
+          ['stg.example.com', 'https://stg.example.com'],
+        ]),
+      );
+      expect(screen.queryByRole('form', { name: t('addEnvironment') })).toBeNull();
+    });
+
+    it('adds an http environment with a port to a project with no environments', async () => {
+      await seed();
+      render(<App />);
+      await heading('beta');
+      const { form, scheme, host } = await openForm('beta');
+      await userEvent.selectOptions(scheme, 'http:');
+      await userEvent.type(host, 'localhost:3000');
+      await userEvent.click(within(form).getByRole('button', { name: t('confirm') }));
+      await waitFor(async () => expect((await envs('p2')).map((e) => e.origin)).toEqual(['http://localhost:3000']));
+    });
+
+    it('refuses an origin that is already registered', async () => {
+      await seed();
+      render(<App />);
+      await heading('beta');
+      const { host } = await openForm('beta');
+      await userEvent.type(host, 'example.com{Enter}');
+      expect((await screen.findByRole('alert')).textContent).toBe(t('originTaken', 'alpha'));
+      expect(await envs('p2')).toEqual([]);
+      expect(screen.getByRole('form', { name: t('addEnvironment') })).toBeTruthy();
+    });
+
+    it('rejects an invalid host', async () => {
+      await seed();
+      render(<App />);
+      await heading('beta');
+      const { host } = await openForm('beta');
+      await userEvent.type(host, 'example.com/path{Enter}');
+      expect((await screen.findByRole('alert')).textContent).toBe(t('invalidHost'));
+      expect(await envs('p2')).toEqual([]);
+    });
+
+    it('closes the form on cancel without adding', async () => {
+      await seed();
+      render(<App />);
+      await heading('beta');
+      const { form, host } = await openForm('beta');
+      await userEvent.type(host, 'new.example.com');
+      await userEvent.click(within(form).getByRole('button', { name: t('cancel') }));
+      expect(screen.queryByRole('form', { name: t('addEnvironment') })).toBeNull();
+      expect(await envs('p2')).toEqual([]);
     });
   });
 });

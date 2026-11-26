@@ -120,3 +120,20 @@ body {
   color: light-dark(#b00020, #ff8a80);
   overflow-wrap: anywhere;
 }
+
+.add-environment {
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px;
+  border: 1px dashed color-mix(in srgb, currentColor 35%, transparent);
+  border-radius: 6px;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.add-environment-form {
+  margin-top: 12px;
+  padding-left: 16px;
+}

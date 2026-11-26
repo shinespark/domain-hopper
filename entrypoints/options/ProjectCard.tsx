@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { t } from '@/lib/i18n';
 import {
+  addEnvironment,
   moveEnvironment,
   moveProject,
   removeEnvironment,
@@ -235,6 +236,78 @@ function RowActions({
   );
 }
 
+function AddEnvironment({ onAdd }: { onAdd: (origin: string) => Promise<OpResult | null> }) {
+  const [open, setOpen] = useState(false);
+  const [scheme, setScheme] = useState<Scheme>('https:');
+  const [host, setHost] = useState('');
+  const [message, setMessage] = useState<string | null>(null);
+
+  const close = () => {
+    setOpen(false);
+    setScheme('https:');
+    setHost('');
+    setMessage(null);
+  };
+
+  if (!open) {
+    return (
+      <button type="button" className="add-environment" onClick={() => setOpen(true)}>
+        <span aria-hidden="true">+ </span>
+        {t('addEnvironment')}
+      </button>
+    );
+  }
+
+  const submit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const origin = buildOrigin(scheme, host);
+    if (!origin) {
+      setMessage(t('invalidHost'));
+      return;
+    }
+    const result = await onAdd(origin);
+    if (!result) return;
+    if (!result.ok) {
+      setMessage(t('originTaken', result.projectName));
+      return;
+    }
+    close();
+  };
+
+  return (
+    <form className="add-environment-form" aria-label={t('addEnvironment')} onSubmit={submit}>
+      <div className="origin-fields">
+        <select
+          className="scheme-select"
+          aria-label={t('schemeLabel')}
+          value={scheme}
+          onChange={(event) => setScheme(event.target.value as Scheme)}
+        >
+          <option value="https:">https://</option>
+          <option value="http:">http://</option>
+        </select>
+        <input
+          className="text-input"
+          aria-label={t('hostLabel')}
+          placeholder="example.com"
+          autoFocus
+          value={host}
+          onChange={(event) => setHost(event.target.value)}
+        />
+        <button type="submit">{t('confirm')}</button>
+        <button type="button" onClick={close}>
+          {t('cancel')}
+        </button>
+      </div>
+      {message && (
+        <p className="field-error" role="alert">
+          {message}
+        </p>
+      )}
+    </form>
+  );
+}
+
 export default function ProjectCard({
   project,
   index,
@@ -285,6 +358,7 @@ export default function ProjectCard({
           </li>
         ))}
       </ul>
+      <AddEnvironment onAdd={(origin) => update((current) => addEnvironment(current, project.id, origin))} />
     </li>
   );
 }

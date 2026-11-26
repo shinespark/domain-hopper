@@ -78,5 +78,8 @@
   },
   "invalidHost": {
     "message": "example.com や localhost:3000 の形で入力してください。"
+  },
+  "addEnvironment": {
+    "message": "行き先を追加"
   }
 }
