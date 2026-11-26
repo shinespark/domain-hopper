@@ -1,0 +1,93 @@
+{
+  "extName": {
+    "message": "Domain Hopper"
+  },
+  "extDescription": {
+    "message": "Switch the current page to another environment, keeping the same path."
+  },
+  "errorSaveFailed": {
+    "message": "Couldn't save. Please try again in a moment."
+  },
+  "errorLoadFailed": {
+    "message": "Couldn't load your projects. Please reopen this page."
+  },
+  "unsupportedPage": {
+    "message": "This page can't be switched."
+  },
+  "openSettings": {
+    "message": "Open settings"
+  },
+  "createProject": {
+    "message": "Create a new project"
+  },
+  "projectNameLabel": {
+    "message": "Project name"
+  },
+  "addToExisting": {
+    "message": "Add to existing"
+  },
+  "originTaken": {
+    "message": "This site is already registered in \"$PROJECT$\".",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirm": {
+    "message": "Add"
+  },
+  "create": {
+    "message": "Create"
+  },
+  "optionsTitle": {
+    "message": "Domain Hopper settings"
+  },
+  "noProjects": {
+    "message": "No projects yet. Use “Add project” above, or open a page and register it from the toolbar button."
+  },
+  "environmentLabel": {
+    "message": "Environment label"
+  },
+  "moveUp": {
+    "message": "Move up"
+  },
+  "moveDown": {
+    "message": "Move down"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "confirmDeleteProject": {
+    "message": "Delete \"$PROJECT$\" and all its environments?",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      }
+    }
+  },
+  "schemeLabel": {
+    "message": "Scheme"
+  },
+  "hostLabel": {
+    "message": "Host"
+  },
+  "invalidHost": {
+    "message": "Enter a host such as example.com or localhost:3000."
+  },
+  "addEnvironment": {
+    "message": "Add environment"
+  },
+  "clickToEdit": {
+    "message": "Click to edit"
+  },
+  "addProject": {
+    "message": "Add project"
+  },
+  "optionsDescription": {
+    "message": "Same path, different environment — in one click."
+  }
+}

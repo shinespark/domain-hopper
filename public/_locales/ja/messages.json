@@ -1,0 +1,93 @@
+{
+  "extName": {
+    "message": "Domain Hopper"
+  },
+  "extDescription": {
+    "message": "今のページを、パスはそのままで別の環境に切り替えます。"
+  },
+  "errorSaveFailed": {
+    "message": "保存できませんでした。少し待ってからもう一度お試しください。"
+  },
+  "errorLoadFailed": {
+    "message": "プロジェクトを読み込めませんでした。開き直してください。"
+  },
+  "unsupportedPage": {
+    "message": "このページでは使えません。"
+  },
+  "openSettings": {
+    "message": "設定を開く"
+  },
+  "createProject": {
+    "message": "新しいプロジェクトを作る"
+  },
+  "projectNameLabel": {
+    "message": "プロジェクト名"
+  },
+  "addToExisting": {
+    "message": "既存に追加"
+  },
+  "originTaken": {
+    "message": "このサイトはすでに「$PROJECT$」に登録されています。",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirm": {
+    "message": "追加"
+  },
+  "create": {
+    "message": "作成"
+  },
+  "optionsTitle": {
+    "message": "Domain Hopper 設定"
+  },
+  "noProjects": {
+    "message": "プロジェクトがありません。上の「プロジェクトを追加」を使うか、ページを開いてツールバーのボタンから登録してください。"
+  },
+  "environmentLabel": {
+    "message": "環境のラベル"
+  },
+  "moveUp": {
+    "message": "上へ"
+  },
+  "moveDown": {
+    "message": "下へ"
+  },
+  "delete": {
+    "message": "削除"
+  },
+  "cancel": {
+    "message": "キャンセル"
+  },
+  "confirmDeleteProject": {
+    "message": "「$PROJECT$」と配下の環境をすべて削除しますか？",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      }
+    }
+  },
+  "schemeLabel": {
+    "message": "スキーム"
+  },
+  "hostLabel": {
+    "message": "ホスト"
+  },
+  "invalidHost": {
+    "message": "example.com や localhost:3000 の形で入力してください。"
+  },
+  "addEnvironment": {
+    "message": "行き先を追加"
+  },
+  "clickToEdit": {
+    "message": "クリックして編集"
+  },
+  "addProject": {
+    "message": "プロジェクトを追加"
+  },
+  "optionsDescription": {
+    "message": "パスはそのまま、環境だけをワンクリックで切り替えます。"
+  }
+}
