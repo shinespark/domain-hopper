@@ -276,8 +276,8 @@ function AddEnvironment({ onAdd }: { onAdd: (origin: string, label: string) => P
           onChange={(event) => setName(event.target.value)}
         />
         <div className="actions">
-          <button type="submit" className="add-env-submit">
-            {t('confirm')}
+          <button type="submit" className="icon-button" aria-label={t('confirm')} title={t('confirm')}>
+            <Icon path="M5 12l5 5 9-10" />
           </button>
           <button type="button" className="icon-button" aria-label={t('cancel')} title={t('cancel')} onClick={close}>
             <Icon path="M6 6l12 12M18 6L6 18" />
