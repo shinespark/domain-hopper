@@ -14,42 +14,6 @@ body {
   box-sizing: border-box;
 }
 
-.page-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.page-header h1 {
-  margin: 0;
-}
-
-.primary-button {
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  background: light-dark(#1a56db, #2563eb);
-  font: inherit;
-  font-weight: 600;
-  color: #fff;
-  cursor: pointer;
-}
-
-.primary-button:hover {
-  background: light-dark(#1e429f, #1d4ed8);
-}
-
-.add-project-form {
-  display: flex;
-  flex: 1;
-  gap: 8px;
-  min-width: 0;
-  max-width: 420px;
-}
-
 .error {
   padding: 8px;
   border: 1px solid currentColor;
@@ -204,10 +168,10 @@ body {
   overflow-wrap: anywhere;
 }
 
-.add-environment {
+.add-block {
   width: 100%;
   margin-top: 12px;
-  padding: 8px;
+  padding: 10px;
   border: 1px dashed color-mix(in srgb, currentColor 35%, transparent);
   border-radius: 6px;
   background: none;
@@ -216,7 +180,11 @@ body {
   cursor: pointer;
 }
 
-.add-environment-form {
+.add-block:hover {
+  background: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.add-block-form {
   margin-top: 12px;
   padding: 12px;
   border: 1px dashed color-mix(in srgb, currentColor 35%, transparent);
@@ -247,4 +215,9 @@ body {
   justify-content: flex-end;
   gap: 8px;
   margin-top: 16px;
+}
+
+.add-project-form {
+  display: flex;
+  gap: 8px;
 }

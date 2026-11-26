@@ -312,7 +312,7 @@ function AddEnvironment({ onAdd }: { onAdd: (origin: string) => Promise<OpResult
 
   if (!open) {
     return (
-      <button type="button" className="add-environment" onClick={() => setOpen(true)}>
+      <button type="button" className="add-block" onClick={() => setOpen(true)}>
         <span aria-hidden="true">+ </span>
         {t('addEnvironment')}
       </button>
@@ -336,7 +336,7 @@ function AddEnvironment({ onAdd }: { onAdd: (origin: string) => Promise<OpResult
   };
 
   return (
-    <form className="add-environment-form" aria-label={t('addEnvironment')} onSubmit={submit}>
+    <form className="add-block-form" aria-label={t('addEnvironment')} onSubmit={submit}>
       <div className="origin-fields">
         <select
           className="scheme-select"

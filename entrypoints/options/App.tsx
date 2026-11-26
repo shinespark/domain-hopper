@@ -14,10 +14,7 @@ export default function App() {
 
   return (
     <main className="options">
-      <header className="page-header">
-        <h1>{t('extName')}</h1>
-        <AddProject update={update} />
-      </header>
+      <h1>{t('extName')}</h1>
       {error && <p role="alert" className="error">{error}</p>}
       {projects && projects.length === 0 && <p>{t('noProjects')}</p>}
       {projects && projects.length > 0 && (
@@ -33,6 +30,7 @@ export default function App() {
           ))}
         </ul>
       )}
+      {projects && <AddProject update={update} />}
     </main>
   );
 }

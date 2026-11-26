@@ -15,7 +15,7 @@ export default function AddProject({ update }: { update: ReturnType<typeof usePr
 
   if (!open) {
     return (
-      <button type="button" className="primary-button" onClick={() => setOpen(true)}>
+      <button type="button" className="add-block" onClick={() => setOpen(true)}>
         <span aria-hidden="true">+ </span>
         {t('addProject')}
       </button>
@@ -24,7 +24,7 @@ export default function AddProject({ update }: { update: ReturnType<typeof usePr
 
   return (
     <form
-      className="add-project-form"
+      className="add-block-form add-project-form"
       aria-label={t('addProject')}
       onSubmit={async (event) => {
         event.preventDefault();
