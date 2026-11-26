@@ -16,5 +16,20 @@
   },
   "openSettings": {
     "message": "Open settings"
+  },
+  "createProject": {
+    "message": "Create a new project"
+  },
+  "projectNameLabel": {
+    "message": "Project name"
+  },
+  "addToExisting": {
+    "message": "Add to existing"
+  },
+  "originTaken": {
+    "message": "This site is already registered in \"$1\"."
+  },
+  "confirm": {
+    "message": "Add"
   }
 }

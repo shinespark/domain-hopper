@@ -16,5 +16,20 @@
   },
   "openSettings": {
     "message": "設定を開く"
+  },
+  "createProject": {
+    "message": "新しいプロジェクトを作る"
+  },
+  "projectNameLabel": {
+    "message": "プロジェクト名"
+  },
+  "addToExisting": {
+    "message": "既存に追加"
+  },
+  "originTaken": {
+    "message": "このサイトはすでに「$1」に登録されています。"
+  },
+  "confirm": {
+    "message": "追加"
   }
 }

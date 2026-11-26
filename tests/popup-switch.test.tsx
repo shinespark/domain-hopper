@@ -92,14 +92,7 @@ describe('popup switch', () => {
     render(<App />);
     expect(await screen.findByText(t('unsupportedPage'))).toBeTruthy();
     expect(screen.queryByRole('list')).toBeNull();
-    expect(screen.queryByTestId('register-placeholder')).toBeNull();
-  });
-
-  it('shows the register placeholder for an unregistered origin', async () => {
-    await seed();
-    mockTab('https://other.example.org/');
-    render(<App />);
-    expect(await screen.findByTestId('register-placeholder')).toBeTruthy();
+    expect(screen.queryByRole('button', { name: t('createProject') })).toBeNull();
   });
 
   it('opens the options page from the gear button', async () => {
