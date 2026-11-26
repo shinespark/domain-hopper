@@ -4,5 +4,8 @@
   },
   "extDescription": {
     "message": "Switch the current page to another environment, keeping the same path."
+  },
+  "errorSaveFailed": {
+    "message": "Couldn't save. Please try again in a moment."
   }
 }

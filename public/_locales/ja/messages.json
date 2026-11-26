@@ -4,5 +4,8 @@
   },
   "extDescription": {
     "message": "今のページを、パスはそのままで別の環境に切り替えます。"
+  },
+  "errorSaveFailed": {
+    "message": "保存できませんでした。少し待ってからもう一度お試しください。"
   }
 }
