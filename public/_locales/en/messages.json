@@ -1,0 +1,8 @@
+{
+  "extName": {
+    "message": "domain-hopper"
+  },
+  "extDescription": {
+    "message": "Switch the current page to another environment, keeping the same path."
+  }
+}

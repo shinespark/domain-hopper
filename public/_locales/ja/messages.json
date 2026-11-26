@@ -1,0 +1,8 @@
+{
+  "extName": {
+    "message": "domain-hopper"
+  },
+  "extDescription": {
+    "message": "今のページを、パスはそのままで別の環境に切り替えます。"
+  }
+}
