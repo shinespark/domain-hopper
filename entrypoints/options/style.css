@@ -50,21 +50,37 @@ body {
   min-width: 0;
 }
 
-.project-title {
-  display: flex;
+.project-name {
   flex: 1;
-  align-items: center;
-  gap: 4px;
   min-width: 0;
+  margin: 0;
+  font-size: 18px;
 }
 
-.project-name {
-  margin: 0;
-  min-width: 0;
+.project-name-button {
+  display: block;
+  max-width: 100%;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: none;
+  font: inherit;
+  font-weight: bold;
+  color: inherit;
+  text-align: left;
   overflow: hidden;
-  font-size: 18px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: text;
+}
+
+.project-name-button:hover {
+  border-color: color-mix(in srgb, currentColor 25%, transparent);
+}
+
+.project-name-input {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .text-input {

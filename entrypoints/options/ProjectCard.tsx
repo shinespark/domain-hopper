@@ -18,12 +18,14 @@ import type { useProjects } from '@/lib/use-projects';
 type Update = ReturnType<typeof useProjects>['update'];
 
 function EditableText({
+  className = 'text-input',
   value,
   label,
   autoFocus,
   onCommit,
   onDone,
 }: {
+  className?: string;
   value: string;
   label: string;
   autoFocus?: boolean;
@@ -41,7 +43,7 @@ function EditableText({
 
   return (
     <input
-      className="text-input"
+      className={className}
       aria-label={label}
       title={draft ?? value}
       value={draft ?? value}
@@ -121,6 +123,7 @@ function ProjectName({ name, onCommit }: { name: string; onCommit: (next: string
   if (editing) {
     return (
       <EditableText
+        className="text-input project-name-input"
         value={name}
         label={t('projectNameLabel')}
         autoFocus
@@ -131,32 +134,16 @@ function ProjectName({ name, onCommit }: { name: string; onCommit: (next: string
   }
 
   return (
-    <div className="project-title">
-      <h2 className="project-name" title={name}>
-        {name}
-      </h2>
+    <h2 className="project-name">
       <button
         type="button"
-        className="icon-button"
-        aria-label={t('editProjectName')}
+        className="project-name-button"
         title={t('editProjectName')}
         onClick={() => setEditing(true)}
       >
-        <svg
-          viewBox="0 0 24 24"
-          width="16"
-          height="16"
-          aria-hidden="true"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4" />
-        </svg>
+        {name}
       </button>
-    </div>
+    </h2>
   );
 }
 

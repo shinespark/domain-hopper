@@ -27,7 +27,7 @@ const row = (value: string) =>
 const btn = (scope: HTMLElement, key: Parameters<typeof t>[0]) => within(scope).getAllByRole('button', { name: t(key) })[0]!;
 const heading = (name: string) => screen.findByRole('heading', { level: 2, name });
 async function editName(name: string) {
-  await userEvent.click(btn(row(name), 'editProjectName'));
+  await userEvent.click(within(screen.getByRole('heading', { level: 2, name })).getByRole('button', { name }));
   return screen.getByDisplayValue(name) as HTMLInputElement;
 }
 
