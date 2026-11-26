@@ -22,8 +22,8 @@ function updateProject(projects: Project[], projectId: string, update: (project:
   return projects.map((p) => (p.id === projectId ? update(p) : p));
 }
 
-function newEnvironment(origin: string): Environment {
-  return { id: crypto.randomUUID(), label: defaultLabel(origin), origin };
+function newEnvironment(origin: string, label?: string): Environment {
+  return { id: crypto.randomUUID(), label: label || defaultLabel(origin), origin };
 }
 
 export function findProjectByOrigin(projects: Project[], origin: string): Project | undefined {
@@ -41,14 +41,14 @@ export function addProject(projects: Project[], name: string): Project[] {
   return [...projects, { id: crypto.randomUUID(), name, environments: [] }];
 }
 
-export function addEnvironment(projects: Project[], projectId: string, origin: string): OpResult {
+export function addEnvironment(projects: Project[], projectId: string, origin: string, label?: string): OpResult {
   const taken = findProjectByOrigin(projects, origin);
   if (taken) return { ok: false, reason: 'origin-taken', projectName: taken.name };
   return {
     ok: true,
     projects: updateProject(projects, projectId, (p) => ({
       ...p,
-      environments: [...p.environments, newEnvironment(origin)],
+      environments: [...p.environments, newEnvironment(origin, label)],
     })),
   };
 }

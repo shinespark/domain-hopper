@@ -232,3 +232,22 @@ body {
 .origin-fields .select-wrap {
   flex-shrink: 0;
 }
+
+.add-env-form {
+  margin-top: 12px;
+  border-style: dashed;
+}
+
+.add-env-submit {
+  padding: 4px 12px;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 6px;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.add-env-submit:hover {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}

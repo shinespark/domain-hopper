@@ -230,3 +230,13 @@ describe('addProject', () => {
     expect(result[1]).toEqual({ id: expect.any(String), name: 'New', environments: [] });
   });
 });
+
+describe('addEnvironment with a label', () => {
+  test('ラベルを指定するとそれを使う', () => {
+    const a = project('a', 'A', []);
+    const result = addEnvironment([a], 'a', 'https://stg.example.com', 'Staging');
+    expect(result.ok && result.projects[0]!.environments.map((e) => [e.label, e.origin])).toEqual([
+      ['Staging', 'https://stg.example.com'],
+    ]);
+  });
+});

@@ -225,14 +225,16 @@ function RowActions({
   );
 }
 
-function AddEnvironment({ onAdd }: { onAdd: (origin: string) => Promise<OpResult | null> }) {
+function AddEnvironment({ onAdd }: { onAdd: (origin: string, label: string) => Promise<OpResult | null> }) {
   const [open, setOpen] = useState(false);
+  const [name, setName] = useState('');
   const [scheme, setScheme] = useState<Scheme>('https:');
   const [host, setHost] = useState('');
   const [message, setMessage] = useState<string | null>(null);
 
   const close = () => {
     setOpen(false);
+    setName('');
     setScheme('https:');
     setHost('');
     setMessage(null);
@@ -254,7 +256,7 @@ function AddEnvironment({ onAdd }: { onAdd: (origin: string) => Promise<OpResult
       setMessage(t('invalidHost'));
       return;
     }
-    const result = await onAdd(origin);
+    const result = await onAdd(origin, name.trim());
     if (!result) return;
     if (!result.ok) {
       setMessage(t('originTaken', result.projectName));
@@ -264,7 +266,24 @@ function AddEnvironment({ onAdd }: { onAdd: (origin: string) => Promise<OpResult
   };
 
   return (
-    <form className="add-block-form" aria-label={t('addEnvironment')} onSubmit={submit}>
+    <form className="env add-env-form" aria-label={t('addEnvironment')} onSubmit={submit}>
+      <div className="row">
+        <input
+          className="text-input editable-input-3"
+          aria-label={t('environmentLabel')}
+          placeholder={host.trim() || t('environmentLabel')}
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+        />
+        <div className="actions">
+          <button type="submit" className="add-env-submit">
+            {t('confirm')}
+          </button>
+          <button type="button" className="icon-button" aria-label={t('cancel')} title={t('cancel')} onClick={close}>
+            <Icon path="M6 6l12 12M18 6L6 18" />
+          </button>
+        </div>
+      </div>
       <div className="origin-fields">
         <span className="select-wrap">
           <select
@@ -285,10 +304,6 @@ function AddEnvironment({ onAdd }: { onAdd: (origin: string) => Promise<OpResult
           value={host}
           onChange={(event) => setHost(event.target.value)}
         />
-        <button type="submit">{t('confirm')}</button>
-        <button type="button" onClick={close}>
-          {t('cancel')}
-        </button>
       </div>
       {message && (
         <p className="field-error" role="alert">
@@ -351,7 +366,7 @@ export default function ProjectCard({
           </li>
         ))}
       </ul>
-      <AddEnvironment onAdd={(origin) => update((current) => addEnvironment(current, project.id, origin))} />
+      <AddEnvironment onAdd={(origin, label) => update((current) => addEnvironment(current, project.id, origin, label))} />
     </li>
   );
 }

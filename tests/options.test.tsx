@@ -346,4 +346,23 @@ describe('options page', () => {
     expect(await screen.findByRole('heading', { level: 3, name: 'あああ' })).toBeTruthy();
     expect((within(row('あああ')).getByRole('textbox', { name: t('hostLabel') }) as HTMLInputElement).value).toBe('あああ');
   });
+
+  it('adds an environment with a custom name, showing the host as the default name', async () => {
+    await seed();
+    render(<App />);
+    await heading('beta');
+    await userEvent.click(btn(row('beta'), 'addEnvironment'));
+    const form = screen.getByRole('form', { name: t('addEnvironment') });
+    const name = within(form).getByRole('textbox', { name: t('environmentLabel') }) as HTMLInputElement;
+    const host = within(form).getByRole('textbox', { name: t('hostLabel') }) as HTMLInputElement;
+    expect(document.activeElement).toBe(host);
+    await userEvent.type(host, 'stg.example.com');
+    expect(name.placeholder).toBe('stg.example.com');
+    await userEvent.type(name, 'Staging{Enter}');
+    await waitFor(async () =>
+      expect((await loadProjects())[1]!.environments.map((e) => [e.label, e.origin])).toEqual([
+        ['Staging', 'https://stg.example.com'],
+      ]),
+    );
+  });
 });
