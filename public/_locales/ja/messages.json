@@ -86,5 +86,8 @@
   },
   "addProject": {
     "message": "プロジェクトを追加"
+  },
+  "optionsDescription": {
+    "message": "同じサイトの本番・ステージング・ローカルを、今のページのまま行き来できます。"
   }
 }

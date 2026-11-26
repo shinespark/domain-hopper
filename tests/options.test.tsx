@@ -52,6 +52,8 @@ describe('options page', () => {
     const hosts = screen.getAllByRole('textbox', { name: t('hostLabel') }).map((el) => (el as HTMLInputElement).value);
     expect(hosts).toEqual(['example.com', 'example.com']);
     expect(document.title).toBe(t('optionsTitle'));
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toBe(t('extName'));
+    expect(screen.getByText(t('optionsDescription'))).toBeTruthy();
   });
 
   it('shows the empty message', async () => {

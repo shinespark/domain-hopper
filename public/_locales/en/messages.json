@@ -86,5 +86,8 @@
   },
   "addProject": {
     "message": "Add project"
+  },
+  "optionsDescription": {
+    "message": "Switch between environments of the same site without losing your place."
   }
 }

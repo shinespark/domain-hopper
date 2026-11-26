@@ -14,7 +14,10 @@ export default function App() {
 
   return (
     <main className="options">
-      <h1>{t('extName')}</h1>
+      <header className="page-header">
+        <h1>{t('extName')}</h1>
+        <p className="page-description">{t('optionsDescription')}</p>
+      </header>
       {error && <p role="alert" className="error">{error}</p>}
       {projects && projects.length === 0 && <p>{t('noProjects')}</p>}
       {projects && projects.length > 0 && (
