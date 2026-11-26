@@ -26,7 +26,7 @@ Domain Hopper は、開いているタブを同じサイトの別の環境（本
 - 個人情報を収集せず、開発者を含め外部のサーバーには何も送信しません。
 - 読み取るのは、ボタンを押した時点での今のタブの URL だけです。
 - 登録した origin・ラベル・プロジェクト名は chrome.storage.sync に保存されます。Chrome の同期をオンにしている場合のみ、Chrome によって利用者の Google アカウントに同期され、オフの場合はこの端末内にだけ保存されます。
-- プライバシーポリシー: https://github.com/shinespark/domain-hopper/blob/main/PRIVACY.md
+- プライバシーポリシー: https://shinespark.github.io/domain-hopper/privacy-policy/ja/
 
 ## スクリーンショット
 

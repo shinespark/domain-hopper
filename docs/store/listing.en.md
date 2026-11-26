@@ -26,7 +26,7 @@ Domain Hopper makes no network requests and has no analytics. Your projects are 
 - Collects no personal data and sends nothing to any server, including the developer.
 - The only data read is the URL of the current tab, at the moment you press the button.
 - Registered origins, labels and project names are stored in chrome.storage.sync. Only if you have turned on Chrome sync, Chrome syncs them through your Google account; otherwise they stay on this device only.
-- Privacy policy: https://github.com/shinespark/domain-hopper/blob/main/PRIVACY.md
+- Privacy policy: https://shinespark.github.io/domain-hopper/privacy-policy/en/
 
 ## Screenshots
 
