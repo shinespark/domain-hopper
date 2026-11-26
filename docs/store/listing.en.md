@@ -27,3 +27,11 @@ Domain Hopper makes no network requests and has no analytics. Your projects are 
 - The only data read is the URL of the current tab, at the moment you press the button.
 - Registered origins, labels and project names are stored in chrome.storage.sync. Only if you have turned on Chrome sync, Chrome syncs them through your Google account; otherwise they stay on this device only.
 - Privacy policy: https://shinespark.github.io/domain-hopper/privacy-policy/en/
+
+## Screenshots
+
+1280×800, in this order. The data shown is fictional.
+
+1. ![Switch environments](screenshots/1-switch.png)
+2. ![Register the current page](screenshots/2-register.png)
+3. ![Settings page](screenshots/3-options.png)
