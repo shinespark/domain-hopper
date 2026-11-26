@@ -77,14 +77,46 @@ function RowActions({
 
   return (
     <div className="actions">
-      <button type="button" disabled={index === 0} onClick={() => onMove(index - 1)}>
-        {t('moveUp')}
+      <button
+        type="button"
+        className="icon-button"
+        aria-label={t('moveUp')}
+        title={t('moveUp')}
+        disabled={index === 0}
+        onClick={() => onMove(index - 1)}
+      >
+        ↑
       </button>
-      <button type="button" disabled={index === count - 1} onClick={() => onMove(index + 1)}>
-        {t('moveDown')}
+      <button
+        type="button"
+        className="icon-button"
+        aria-label={t('moveDown')}
+        title={t('moveDown')}
+        disabled={index === count - 1}
+        onClick={() => onMove(index + 1)}
+      >
+        ↓
       </button>
-      <button type="button" onClick={() => setConfirming(true)}>
-        {t('delete')}
+      <button
+        type="button"
+        className="icon-button"
+        aria-label={t('delete')}
+        title={t('delete')}
+        onClick={() => setConfirming(true)}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+          aria-hidden="true"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" />
+        </svg>
       </button>
     </div>
   );
