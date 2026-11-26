@@ -87,15 +87,17 @@ function OriginEditor({
   return (
     <>
       <div className="origin-fields">
-        <select
-          className="scheme-select"
-          aria-label={t('schemeLabel')}
-          value={scheme}
-          onChange={(event) => save(event.target.value as Scheme, host)}
-        >
-          <option value="https:">https://</option>
-          <option value="http:">http://</option>
-        </select>
+        <span className="select-wrap">
+          <select
+            className="scheme-select"
+            aria-label={t('schemeLabel')}
+            value={scheme}
+            onChange={(event) => save(event.target.value as Scheme, host)}
+          >
+            <option value="https:">https://</option>
+            <option value="http:">http://</option>
+          </select>
+        </span>
         <input
           className="text-input"
           aria-label={t('hostLabel')}
@@ -264,15 +266,17 @@ function AddEnvironment({ onAdd }: { onAdd: (origin: string) => Promise<OpResult
   return (
     <form className="add-block-form" aria-label={t('addEnvironment')} onSubmit={submit}>
       <div className="origin-fields">
-        <select
-          className="scheme-select"
-          aria-label={t('schemeLabel')}
-          value={scheme}
-          onChange={(event) => setScheme(event.target.value as Scheme)}
-        >
-          <option value="https:">https://</option>
-          <option value="http:">http://</option>
-        </select>
+        <span className="select-wrap">
+          <select
+            className="scheme-select"
+            aria-label={t('schemeLabel')}
+            value={scheme}
+            onChange={(event) => setScheme(event.target.value as Scheme)}
+          >
+            <option value="https:">https://</option>
+            <option value="http:">http://</option>
+          </select>
+        </span>
         <input
           className="text-input"
           aria-label={t('hostLabel')}

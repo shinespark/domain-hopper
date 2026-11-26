@@ -150,7 +150,45 @@ body {
   min-width: 0;
   width: 0;
   box-sizing: border-box;
-  padding: 4px;
+  padding: 4px 8px;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 4px;
   font: inherit;
   text-overflow: ellipsis;
+}
+
+.select-wrap {
+  flex: 1;
+}
+
+.select-wrap .field {
+  width: 100%;
+  background: transparent;
+  color: inherit;
+}
+
+.select-wrap {
+  position: relative;
+  display: flex;
+  min-width: 0;
+}
+
+.select-wrap select {
+  appearance: none;
+  padding-right: 28px;
+  cursor: pointer;
+}
+
+.select-wrap::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 11px;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-70%) rotate(45deg);
+  opacity: 0.6;
+  pointer-events: none;
 }

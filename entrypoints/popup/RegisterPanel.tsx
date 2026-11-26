@@ -55,18 +55,20 @@ export default function RegisterPanel({ origin, projects, update }: Props) {
               autoFocus
             />
           ) : (
-            <select
-              className="field"
-              aria-label={t('addToExisting')}
-              value={target}
-              onChange={(e) => setTargetId(e.target.value)}
-            >
-              {projects.map((p) => (
-                <option key={p.id} value={p.id} title={p.name}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
+            <span className="select-wrap">
+              <select
+                className="field"
+                aria-label={t('addToExisting')}
+                value={target}
+                onChange={(e) => setTargetId(e.target.value)}
+              >
+                {projects.map((p) => (
+                  <option key={p.id} value={p.id} title={p.name}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            </span>
           )}
           <button type="submit" className="action" disabled={mode === 'create' ? name.trim() === '' : target === ''}>
             {mode === 'create' ? t('create') : t('confirm')}
