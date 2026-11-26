@@ -137,3 +137,29 @@ body {
   margin-top: 12px;
   padding-left: 16px;
 }
+
+.confirm-dialog {
+  max-width: min(400px, calc(100vw - 32px));
+  padding: 20px;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-radius: 8px;
+}
+
+.confirm-dialog::backdrop {
+  background: rgb(0 0 0 / 40%);
+}
+
+.confirm-dialog-title {
+  margin: 0 0 8px;
+  overflow: hidden;
+  font-size: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.confirm-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}

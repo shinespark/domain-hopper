@@ -127,8 +127,32 @@ describe('options page', () => {
 
     const proj = row('beta');
     await userEvent.click(btn(proj, 'delete'));
-    await userEvent.click(btn(proj, 'delete'));
+    await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: t('delete') }));
     await waitFor(async () => expect((await loadProjects()).map((p) => p.id)).toEqual(['p1']));
+  });
+
+  it('confirms project deletion in a dialog that names the project', async () => {
+    await seed();
+    render(<App />);
+    await heading('alpha');
+    await userEvent.click(btn(row('alpha'), 'delete'));
+    const dialog = screen.getByRole('dialog');
+    expect(within(dialog).getByRole('heading', { name: 'alpha' })).toBeTruthy();
+    expect(within(dialog).getByText(t('confirmDeleteProject'))).toBeTruthy();
+    expect(document.activeElement).toBe(within(dialog).getByRole('button', { name: t('cancel') }));
+    await userEvent.click(within(dialog).getByRole('button', { name: t('cancel') }));
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect((await loadProjects()).map((p) => p.id)).toEqual(['p1', 'p2']);
+  });
+
+  it('closes the project deletion dialog with Escape', async () => {
+    await seed();
+    render(<App />);
+    await heading('alpha');
+    await userEvent.click(btn(row('alpha'), 'delete'));
+    await userEvent.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect((await loadProjects()).map((p) => p.id)).toEqual(['p1', 'p2']);
   });
 
   it('reflects changes made on another device', async () => {

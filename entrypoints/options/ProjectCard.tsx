@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { t } from '@/lib/i18n';
 import {
   addEnvironment,
@@ -160,22 +160,76 @@ function ProjectName({ name, onCommit }: { name: string; onCommit: (next: string
   );
 }
 
+function ConfirmDialog({
+  title,
+  message,
+  onConfirm,
+  onCancel,
+}: {
+  title: string;
+  message: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  const ref = useRef<HTMLDialogElement>(null);
+  const cancelRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const dialog = ref.current;
+    if (dialog && !dialog.open) dialog.showModal();
+    cancelRef.current?.focus();
+  }, []);
+
+  return (
+    <dialog
+      ref={ref}
+      className="confirm-dialog"
+      aria-labelledby="confirm-dialog-title"
+      onCancel={(event) => {
+        event.preventDefault();
+        onCancel();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          onCancel();
+        }
+      }}
+    >
+      <h2 id="confirm-dialog-title" className="confirm-dialog-title">
+        {title}
+      </h2>
+      <p>{message}</p>
+      <div className="confirm-dialog-actions">
+        <button ref={cancelRef} type="button" onClick={onCancel}>
+          {t('cancel')}
+        </button>
+        <button type="button" className="danger" onClick={onConfirm}>
+          {t('delete')}
+        </button>
+      </div>
+    </dialog>
+  );
+}
+
 function RowActions({
   index,
   count,
   confirmMessage,
+  dialogTitle,
   onMove,
   onDelete,
 }: {
   index: number;
   count: number;
   confirmMessage: string;
+  dialogTitle?: string;
   onMove: (toIndex: number) => void;
   onDelete: () => void;
 }) {
   const [confirming, setConfirming] = useState(false);
 
-  if (confirming) {
+  if (confirming && dialogTitle === undefined) {
     return (
       <div className="actions" role="group" aria-label={confirmMessage}>
         <span className="confirm-message">{confirmMessage}</span>
@@ -232,6 +286,14 @@ function RowActions({
           <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" />
         </svg>
       </button>
+      {confirming && dialogTitle !== undefined && (
+        <ConfirmDialog
+          title={dialogTitle}
+          message={confirmMessage}
+          onConfirm={onDelete}
+          onCancel={() => setConfirming(false)}
+        />
+      )}
     </div>
   );
 }
@@ -330,6 +392,7 @@ export default function ProjectCard({
           index={index}
           count={count}
           confirmMessage={t('confirmDeleteProject')}
+          dialogTitle={project.name}
           onMove={(toIndex) => update((current) => moveProject(current, project.id, toIndex))}
           onDelete={() => update((current) => removeProject(current, project.id))}
         />
