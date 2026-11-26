@@ -8,7 +8,7 @@
 
 **Tech Stack:** WXT、TypeScript、React、Vitest、@testing-library/react、happy-dom、npm
 
-**Spec:** `docs/superpowers/specs/2026-11-26-domain-hopper-design.md`（PR「domain-hopper の設計ドキュメントを追加」で main に入る。実装を始める前に main を取り込んで読むこと）
+**Spec:** `docs/superpowers/specs/2026-11-26-domain-hopper-design.md`
 
 ## Global Constraints
 
