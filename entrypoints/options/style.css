@@ -17,7 +17,7 @@ body {
 .error {
   padding: 8px;
   border: 1px solid currentColor;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .project-list,
@@ -78,7 +78,7 @@ body {
   max-width: 100%;
   padding: 4px 6px;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 6px;
   background: none;
   font: inherit;
   color: inherit;
@@ -93,11 +93,18 @@ body {
   border-color: color-mix(in srgb, currentColor 25%, transparent);
 }
 
+.text-input,
+.scheme-select,
+.add-block-form button {
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 6px;
+  font: inherit;
+}
+
 .text-input {
   flex: 1;
   min-width: 0;
-  padding: 4px 6px;
-  font: inherit;
   text-overflow: ellipsis;
 }
 
@@ -151,10 +158,14 @@ body {
   min-width: 0;
 }
 
-.scheme-select {
+.scheme-select,
+.add-block-form button {
   flex-shrink: 0;
-  padding: 4px 6px;
-  font: inherit;
+}
+
+.add-block-form button {
+  padding: 6px 12px;
+  cursor: pointer;
 }
 
 .field-error {
