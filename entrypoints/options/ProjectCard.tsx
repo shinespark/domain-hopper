@@ -117,15 +117,26 @@ function OriginEditor({
   );
 }
 
-function ProjectName({ name, onCommit }: { name: string; onCommit: (next: string) => Promise<unknown> }) {
+function ClickToEdit({
+  level,
+  value,
+  label,
+  onCommit,
+}: {
+  level: 2 | 3;
+  value: string;
+  label: string;
+  onCommit: (next: string) => Promise<unknown>;
+}) {
   const [editing, setEditing] = useState(false);
+  const Heading = level === 2 ? 'h2' : 'h3';
 
   if (editing) {
     return (
       <EditableText
-        className="text-input project-name-input"
-        value={name}
-        label={t('projectNameLabel')}
+        className={`text-input editable-input-${level}`}
+        value={value}
+        label={label}
         autoFocus
         onCommit={onCommit}
         onDone={() => setEditing(false)}
@@ -134,16 +145,11 @@ function ProjectName({ name, onCommit }: { name: string; onCommit: (next: string
   }
 
   return (
-    <h2 className="project-name">
-      <button
-        type="button"
-        className="project-name-button"
-        title={t('editProjectName')}
-        onClick={() => setEditing(true)}
-      >
-        {name}
+    <Heading className={`editable-heading editable-heading-${level}`}>
+      <button type="button" className="editable-button" title={t('clickToEdit')} onClick={() => setEditing(true)}>
+        {value}
       </button>
-    </h2>
+    </Heading>
   );
 }
 
@@ -371,8 +377,10 @@ export default function ProjectCard({
   return (
     <li className="project">
       <div className="row">
-        <ProjectName
-          name={project.name}
+        <ClickToEdit
+          level={2}
+          value={project.name}
+          label={t('projectNameLabel')}
           onCommit={(name) => update((current) => renameProject(current, project.id, name))}
         />
         <RowActions
@@ -388,7 +396,8 @@ export default function ProjectCard({
         {project.environments.map((env, envIndex) => (
           <li key={env.id} className="env">
             <div className="row">
-              <EditableText
+              <ClickToEdit
+                level={3}
                 value={env.label}
                 label={t('environmentLabel')}
                 onCommit={(label) => update((current) => renameEnvironment(current, project.id, env.id, label))}

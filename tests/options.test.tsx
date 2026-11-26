@@ -27,7 +27,7 @@ const row = (value: string) =>
 const btn = (scope: HTMLElement, key: Parameters<typeof t>[0]) => within(scope).getAllByRole('button', { name: t(key) })[0]!;
 const heading = (name: string) => screen.findByRole('heading', { level: 2, name });
 async function editName(name: string) {
-  await userEvent.click(within(screen.getByRole('heading', { level: 2, name })).getByRole('button', { name }));
+  await userEvent.click(within(screen.getByRole('heading', { name })).getByRole('button', { name }));
   return screen.getByDisplayValue(name) as HTMLInputElement;
 }
 
@@ -83,7 +83,10 @@ describe('options page', () => {
     await waitFor(async () => expect((await loadProjects())[0]!.name).toBe('gamma'));
     expect(await heading('gamma')).toBeTruthy();
     expect(screen.queryByRole('textbox', { name: t('projectNameLabel') })).toBeNull();
-    const label = screen.getByDisplayValue('Production');
+    expect(screen.getByRole('heading', { level: 3, name: 'Production' })).toBeTruthy();
+    expect(screen.queryByRole('textbox', { name: t('environmentLabel') })).toBeNull();
+    const label = await editName('Production');
+    expect(document.activeElement).toBe(label);
     await userEvent.clear(label);
     await userEvent.type(label, 'Prod');
     await userEvent.tab();

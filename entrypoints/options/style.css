@@ -55,14 +55,25 @@ body {
   min-width: 0;
 }
 
-.project-name {
+.editable-heading {
   flex: 1;
   min-width: 0;
   margin: 0;
-  font-size: 18px;
 }
 
-.project-name-button {
+.editable-heading-2,
+.editable-input-2 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.editable-heading-3,
+.editable-input-3 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.editable-button {
   display: block;
   max-width: 100%;
   padding: 4px 6px;
@@ -70,7 +81,6 @@ body {
   border-radius: 4px;
   background: none;
   font: inherit;
-  font-weight: bold;
   color: inherit;
   text-align: left;
   overflow: hidden;
@@ -79,13 +89,8 @@ body {
   cursor: text;
 }
 
-.project-name-button:hover {
+.editable-button:hover {
   border-color: color-mix(in srgb, currentColor 25%, transparent);
-}
-
-.project-name-input {
-  font-size: 18px;
-  font-weight: bold;
 }
 
 .text-input {

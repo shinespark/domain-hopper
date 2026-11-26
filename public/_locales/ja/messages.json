@@ -67,9 +67,6 @@
   "confirmDeleteEnvironment": {
     "message": "この環境を削除しますか？"
   },
-  "editProjectName": {
-    "message": "プロジェクト名を編集"
-  },
   "schemeLabel": {
     "message": "スキーム"
   },
@@ -81,5 +78,8 @@
   },
   "addEnvironment": {
     "message": "行き先を追加"
+  },
+  "clickToEdit": {
+    "message": "クリックして編集"
   }
 }

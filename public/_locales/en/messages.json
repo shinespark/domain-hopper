@@ -67,9 +67,6 @@
   "confirmDeleteEnvironment": {
     "message": "Delete this environment?"
   },
-  "editProjectName": {
-    "message": "Edit project name"
-  },
   "schemeLabel": {
     "message": "Scheme"
   },
@@ -81,5 +78,8 @@
   },
   "addEnvironment": {
     "message": "Add environment"
+  },
+  "clickToEdit": {
+    "message": "Click to edit"
   }
 }
