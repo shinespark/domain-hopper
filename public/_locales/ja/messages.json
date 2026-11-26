@@ -62,10 +62,12 @@
     "message": "キャンセル"
   },
   "confirmDeleteProject": {
-    "message": "このプロジェクトと配下の環境をすべて削除しますか？"
-  },
-  "confirmDeleteEnvironment": {
-    "message": "この環境を削除しますか？"
+    "message": "「$PROJECT$」と配下の環境をすべて削除しますか？",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      }
+    }
   },
   "schemeLabel": {
     "message": "スキーム"

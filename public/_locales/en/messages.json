@@ -62,10 +62,12 @@
     "message": "Cancel"
   },
   "confirmDeleteProject": {
-    "message": "Delete this project and all its environments?"
-  },
-  "confirmDeleteEnvironment": {
-    "message": "Delete this environment?"
+    "message": "Delete \"$PROJECT$\" and all its environments?",
+    "placeholders": {
+      "project": {
+        "content": "$1"
+      }
+    }
   },
   "schemeLabel": {
     "message": "Scheme"

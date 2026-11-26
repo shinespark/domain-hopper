@@ -140,10 +140,6 @@ body {
   cursor: default;
 }
 
-.confirm-message {
-  font-size: 12px;
-}
-
 .danger {
   color: light-dark(#b00020, #ff8a80);
 }
@@ -189,32 +185,6 @@ body {
   padding: 12px;
   border: 1px dashed color-mix(in srgb, currentColor 35%, transparent);
   border-radius: 8px;
-}
-
-.confirm-dialog {
-  max-width: min(400px, calc(100vw - 32px));
-  padding: 20px;
-  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
-  border-radius: 8px;
-}
-
-.confirm-dialog::backdrop {
-  background: rgb(0 0 0 / 40%);
-}
-
-.confirm-dialog-title {
-  margin: 0 0 8px;
-  overflow: hidden;
-  font-size: 16px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.confirm-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 16px;
 }
 
 .add-project-form {

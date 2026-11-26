@@ -116,46 +116,30 @@ describe('options page', () => {
     );
   });
 
-  it('asks for confirmation before deleting, and can cancel', async () => {
+  it('deletes an environment immediately without confirmation', async () => {
     await seed();
     render(<App />);
     await heading('alpha');
-    const env = row('Insecure');
-    await userEvent.click(btn(env, 'delete'));
-    await userEvent.click(btn(env, 'cancel'));
-    expect((await loadProjects())[0]!.environments).toHaveLength(2);
-    await userEvent.click(btn(env, 'delete'));
-    await userEvent.click(btn(env, 'delete'));
+    const confirm = vi.fn(() => true);
+    window.confirm = confirm;
+    await userEvent.click(btn(row('Insecure'), 'delete'));
     await waitFor(async () => expect((await loadProjects())[0]!.environments.map((e) => e.id)).toEqual(['e1']));
+    expect(confirm).not.toHaveBeenCalled();
+  });
 
-    const proj = row('beta');
-    await userEvent.click(btn(proj, 'delete'));
-    await userEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: t('delete') }));
+  it('asks with window.confirm before deleting a project', async () => {
+    await seed();
+    render(<App />);
+    await heading('alpha');
+    const confirm = vi.fn(() => false);
+    window.confirm = confirm;
+    await userEvent.click(btn(row('alpha'), 'delete'));
+    expect(confirm).toHaveBeenCalledWith(t('confirmDeleteProject', 'alpha'));
+    expect((await loadProjects()).map((p) => p.id)).toEqual(['p1', 'p2']);
+
+    confirm.mockReturnValue(true);
+    await userEvent.click(btn(row('beta'), 'delete'));
     await waitFor(async () => expect((await loadProjects()).map((p) => p.id)).toEqual(['p1']));
-  });
-
-  it('confirms project deletion in a dialog that names the project', async () => {
-    await seed();
-    render(<App />);
-    await heading('alpha');
-    await userEvent.click(btn(row('alpha'), 'delete'));
-    const dialog = screen.getByRole('dialog');
-    expect(within(dialog).getByRole('heading', { name: 'alpha' })).toBeTruthy();
-    expect(within(dialog).getByText(t('confirmDeleteProject'))).toBeTruthy();
-    expect(document.activeElement).toBe(within(dialog).getByRole('button', { name: t('cancel') }));
-    await userEvent.click(within(dialog).getByRole('button', { name: t('cancel') }));
-    expect(screen.queryByRole('dialog')).toBeNull();
-    expect((await loadProjects()).map((p) => p.id)).toEqual(['p1', 'p2']);
-  });
-
-  it('closes the project deletion dialog with Escape', async () => {
-    await seed();
-    render(<App />);
-    await heading('alpha');
-    await userEvent.click(btn(row('alpha'), 'delete'));
-    await userEvent.keyboard('{Escape}');
-    expect(screen.queryByRole('dialog')).toBeNull();
-    expect((await loadProjects()).map((p) => p.id)).toEqual(['p1', 'p2']);
   });
 
   it('reflects changes made on another device', async () => {
