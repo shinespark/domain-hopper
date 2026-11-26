@@ -10,7 +10,7 @@ body {
 .popup {
   width: 320px;
   box-sizing: border-box;
-  padding: 8px;
+  padding: 12px;
 }
 
 .header {
@@ -18,13 +18,17 @@ body {
   align-items: center;
   gap: 8px;
   min-width: 0;
+  padding-bottom: 10px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent);
 }
 
 .header-title {
   flex: 1;
   min-width: 0;
   margin: 0;
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -32,12 +36,21 @@ body {
 
 .gear {
   display: inline-flex;
-  padding: 4px;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
   border: 0;
-  border-radius: 4px;
+  border-radius: 6px;
   background: transparent;
-  color: inherit;
+  color: color-mix(in srgb, currentColor 70%, transparent);
   cursor: pointer;
+}
+
+.gear:hover {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  color: inherit;
 }
 
 .project-name {
