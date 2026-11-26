@@ -11,7 +11,7 @@ import {
 } from '@/lib/projects';
 import { changeOrigin } from '@/lib/projects';
 import type { OpResult, Project } from '@/lib/projects';
-import { buildOrigin } from '@/lib/url';
+import { buildOrigin, toUnicodeHost } from '@/lib/url';
 import type { Scheme } from '@/lib/url';
 import type { useProjects } from '@/lib/use-projects';
 
@@ -64,7 +64,9 @@ function OriginEditor({
   origin: string;
   onChange: (next: string) => Promise<OpResult | null>;
 }) {
-  const { protocol, host } = new URL(origin);
+  const url = new URL(origin);
+  const protocol = url.protocol;
+  const host = toUnicodeHost(url.host);
   const scheme = protocol as Scheme;
   const [draft, setDraft] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);

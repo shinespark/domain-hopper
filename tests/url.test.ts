@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { buildOrigin, buildSwitchedUrl, defaultLabel, toOrigin } from '../lib/url';
+import { buildOrigin, buildSwitchedUrl, defaultLabel, toOrigin, toUnicodeHost } from '../lib/url';
 
 test.each([
   ['https://example.com/a?b=1#c', 'https://example.com'],
@@ -39,4 +39,24 @@ describe('buildOrigin', () => {
     'buildOrigin(https:, %s) は null',
     (host) => expect(buildOrigin('https:', host)).toBeNull(),
   );
+});
+
+describe('toUnicodeHost', () => {
+  test.each([
+    ['xn--l8jaa', 'あああ'],
+    ['xn--wgv71a119e.jp:8080', '日本語.jp:8080'],
+    ['xn--mnchen-3ya.de', 'münchen.de'],
+    ['admin.xn--wgv71a119e.jp', 'admin.日本語.jp'],
+    ['example.com', 'example.com'],
+    ['localhost:3000', 'localhost:3000'],
+    ['[::1]:3000', '[::1]:3000'],
+    ['xn--', 'xn--'],
+    ['xn--a-?', 'xn--a-?'],
+  ])('toUnicodeHost(%s) は %s', (host, expected) => expect(toUnicodeHost(host)).toBe(expected));
+
+  test('日本語ドメインは入力から origin を作り、表示用に戻せる', () => {
+    const origin = buildOrigin('https:', '日本語.jp')!;
+    expect(origin).toBe('https://xn--wgv71a119e.jp');
+    expect(defaultLabel(origin)).toBe('日本語.jp');
+  });
 });

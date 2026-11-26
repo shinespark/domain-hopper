@@ -344,4 +344,22 @@ describe('options page', () => {
       expect((await loadProjects()).map((p) => p.name)).toEqual(['alpha', 'beta']);
     });
   });
+
+  it('shows and adds Japanese domains in readable form', async () => {
+    await seed([{ id: 'p1', name: 'jp', environments: [{ id: 'e1', label: 'Prod', origin: 'https://xn--wgv71a119e.jp' }] }]);
+    render(<App />);
+    await heading('jp');
+    expect((within(row('Prod')).getByRole('textbox', { name: t('hostLabel') }) as HTMLInputElement).value).toBe('日本語.jp');
+    await userEvent.click(btn(row('jp'), 'addEnvironment'));
+    const form = screen.getByRole('form', { name: t('addEnvironment') });
+    await userEvent.type(within(form).getByRole('textbox', { name: t('hostLabel') }), 'あああ{Enter}');
+    await waitFor(async () =>
+      expect((await loadProjects())[0]!.environments.map((e) => [e.label, e.origin])).toEqual([
+        ['Prod', 'https://xn--wgv71a119e.jp'],
+        ['あああ', 'https://xn--l8jaa'],
+      ]),
+    );
+    expect(await screen.findByRole('heading', { level: 3, name: 'あああ' })).toBeTruthy();
+    expect((within(row('あああ')).getByRole('textbox', { name: t('hostLabel') }) as HTMLInputElement).value).toBe('あああ');
+  });
 });
