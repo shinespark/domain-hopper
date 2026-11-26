@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import {
   addEnvironment,
+  changeOrigin,
   createProject,
   findProjectByOrigin,
   moveEnvironment,
@@ -183,5 +184,38 @@ describe('非破壊', () => {
       expect(base).toEqual(before);
       expect(order).toEqual(orderBefore);
     }
+  });
+});
+
+describe('changeOrigin', () => {
+  const a = project('a', 'A', [env('a1', 'https://a.example.com', 'Prod'), env('a2', 'https://stg.a.example.com', 'Stg')]);
+  const b = project('b', 'B', [env('b1', 'http://localhost:3000')]);
+
+  test('行き先の origin だけを変え、ラベルは保つ', () => {
+    const result = changeOrigin([a, b], 'a', 'a1', 'http://a.example.com');
+    expect(result).toEqual({
+      ok: true,
+      projects: [{ ...a, environments: [env('a1', 'http://a.example.com', 'Prod'), a.environments[1]] }, b],
+    });
+  });
+
+  test('ほかのプロジェクトで使われている origin には変えられない', () => {
+    expect(changeOrigin([a, b], 'a', 'a1', 'http://localhost:3000')).toEqual({
+      ok: false,
+      reason: 'origin-taken',
+      projectName: 'B',
+    });
+  });
+
+  test('同じプロジェクトの別の行き先と重なる origin にも変えられない', () => {
+    expect(changeOrigin([a, b], 'a', 'a1', 'https://stg.a.example.com')).toEqual({
+      ok: false,
+      reason: 'origin-taken',
+      projectName: 'A',
+    });
+  });
+
+  test('同じ origin のままなら変更なしで成功する', () => {
+    expect(changeOrigin([a, b], 'a', 'a1', 'https://a.example.com')).toEqual({ ok: true, projects: [a, b] });
   });
 });

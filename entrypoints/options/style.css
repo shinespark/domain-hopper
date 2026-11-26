@@ -101,9 +101,22 @@ body {
   color: light-dark(#b00020, #ff8a80);
 }
 
-.origin {
-  display: block;
+.origin-fields {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  min-width: 0;
+}
+
+.scheme-select {
+  flex-shrink: 0;
+  padding: 4px 6px;
+  font: inherit;
+}
+
+.field-error {
+  margin: 4px 0 0;
   font-size: 12px;
-  opacity: 0.7;
+  color: light-dark(#b00020, #ff8a80);
   overflow-wrap: anywhere;
 }

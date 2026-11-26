@@ -72,6 +72,20 @@ export function renameEnvironment(projects: Project[], projectId: string, envId:
   }));
 }
 
+export function changeOrigin(projects: Project[], projectId: string, envId: string, origin: string): OpResult {
+  const taken = projects.find((p) =>
+    p.environments.some((e) => e.origin === origin && !(p.id === projectId && e.id === envId)),
+  );
+  if (taken) return { ok: false, reason: 'origin-taken', projectName: taken.name };
+  return {
+    ok: true,
+    projects: updateProject(projects, projectId, (p) => ({
+      ...p,
+      environments: p.environments.map((e) => (e.id === envId ? { ...e, origin } : e)),
+    })),
+  };
+}
+
 export function removeEnvironment(projects: Project[], projectId: string, envId: string): Project[] {
   return updateProject(projects, projectId, (p) => ({
     ...p,

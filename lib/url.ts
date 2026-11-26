@@ -16,3 +16,11 @@ export function buildSwitchedUrl(currentUrl: string, targetOrigin: string): stri
   const { pathname, search, hash } = new URL(currentUrl);
   return targetOrigin + pathname + search + hash;
 }
+
+export type Scheme = 'http:' | 'https:';
+
+export function buildOrigin(scheme: Scheme, host: string): string | null {
+  const trimmed = host.trim();
+  if (!trimmed || /[\s/?#@\\]/.test(trimmed)) return null;
+  return toOrigin(`${scheme}//${trimmed}`);
+}

@@ -8,7 +8,10 @@ import {
   renameEnvironment,
   renameProject,
 } from '@/lib/projects';
-import type { Project } from '@/lib/projects';
+import { changeOrigin } from '@/lib/projects';
+import type { OpResult, Project } from '@/lib/projects';
+import { buildOrigin } from '@/lib/url';
+import type { Scheme } from '@/lib/url';
 import type { useProjects } from '@/lib/use-projects';
 
 type Update = ReturnType<typeof useProjects>['update'];
@@ -48,6 +51,66 @@ function EditableText({
         if (event.key === 'Enter' && !event.nativeEvent.isComposing) event.currentTarget.blur();
       }}
     />
+  );
+}
+
+function OriginEditor({
+  origin,
+  onChange,
+}: {
+  origin: string;
+  onChange: (next: string) => Promise<OpResult | null>;
+}) {
+  const { protocol, host } = new URL(origin);
+  const scheme = protocol as Scheme;
+  const [draft, setDraft] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  const save = async (nextScheme: Scheme, nextHost: string) => {
+    setDraft(null);
+    const next = buildOrigin(nextScheme, nextHost);
+    if (!next) {
+      setMessage(t('invalidHost'));
+      return;
+    }
+    setMessage(null);
+    if (next === origin) return;
+    const result = await onChange(next);
+    if (result && !result.ok) setMessage(t('originTaken', result.projectName));
+  };
+
+  return (
+    <>
+      <div className="origin-fields">
+        <select
+          className="scheme-select"
+          aria-label={t('schemeLabel')}
+          value={scheme}
+          onChange={(event) => save(event.target.value as Scheme, host)}
+        >
+          <option value="https:">https://</option>
+          <option value="http:">http://</option>
+        </select>
+        <input
+          className="text-input"
+          aria-label={t('hostLabel')}
+          title={draft ?? host}
+          value={draft ?? host}
+          onChange={(event) => setDraft(event.target.value)}
+          onBlur={() => {
+            if (draft !== null) void save(scheme, draft);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' && !event.nativeEvent.isComposing) event.currentTarget.blur();
+          }}
+        />
+      </div>
+      {message && (
+        <p className="field-error" role="alert">
+          {message}
+        </p>
+      )}
+    </>
   );
 }
 
@@ -215,7 +278,10 @@ export default function ProjectCard({
                 onDelete={() => update((current) => removeEnvironment(current, project.id, env.id))}
               />
             </div>
-            <span className="origin">{env.origin}</span>
+            <OriginEditor
+              origin={env.origin}
+              onChange={(origin) => update((current) => changeOrigin(current, project.id, env.id, origin))}
+            />
           </li>
         ))}
       </ul>

@@ -69,5 +69,14 @@
   },
   "editProjectName": {
     "message": "プロジェクト名を編集"
+  },
+  "schemeLabel": {
+    "message": "スキーム"
+  },
+  "hostLabel": {
+    "message": "ホスト"
+  },
+  "invalidHost": {
+    "message": "example.com や localhost:3000 の形で入力してください。"
   }
 }

@@ -1,5 +1,5 @@
-import { expect, test } from 'vitest';
-import { buildSwitchedUrl, defaultLabel, toOrigin } from '../lib/url';
+import { describe, expect, test } from 'vitest';
+import { buildOrigin, buildSwitchedUrl, defaultLabel, toOrigin } from '../lib/url';
 
 test.each([
   ['https://example.com/a?b=1#c', 'https://example.com'],
@@ -24,4 +24,19 @@ test('buildSwitchedUrl はパス・クエリ・ハッシュを引き継ぐ', () 
     .toBe('http://localhost:3000/a/b?x=1&y=2#top');
   expect(buildSwitchedUrl('http://localhost:3000/', 'https://example.com'))
     .toBe('https://example.com/');
+});
+
+describe('buildOrigin', () => {
+  test.each([
+    ['https:', 'example.com', 'https://example.com'],
+    ['http:', 'localhost:3000', 'http://localhost:3000'],
+    ['https:', ' Admin.Example.com ', 'https://admin.example.com'],
+    ['https:', 'example.com:443', 'https://example.com'],
+    ['http:', '[::1]:8080', 'http://[::1]:8080'],
+  ] as const)('buildOrigin(%s, %s) は %s', (scheme, host, origin) => expect(buildOrigin(scheme, host)).toBe(origin));
+
+  test.each(['', '   ', 'example.com/path', 'example.com?x=1', 'example.com#a', 'user@example.com', 'exa mple.com', 'https://example.com'])(
+    'buildOrigin(https:, %s) は null',
+    (host) => expect(buildOrigin('https:', host)).toBeNull(),
+  );
 });

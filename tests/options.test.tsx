@@ -47,8 +47,10 @@ describe('options page', () => {
     const names = screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent);
     expect(names).toEqual(['alpha', 'beta']);
     expect(screen.queryByRole('textbox', { name: t('projectNameLabel') })).toBeNull();
-    expect(screen.getByText('https://example.com')).toBeTruthy();
-    expect(screen.getByText('http://example.com')).toBeTruthy();
+    const schemes = screen.getAllByRole('combobox', { name: t('schemeLabel') }).map((el) => (el as HTMLSelectElement).value);
+    expect(schemes).toEqual(['https:', 'http:']);
+    const hosts = screen.getAllByRole('textbox', { name: t('hostLabel') }).map((el) => (el as HTMLInputElement).value);
+    expect(hosts).toEqual(['example.com', 'example.com']);
     expect(document.title).toBe(t('optionsTitle'));
   });
 
@@ -147,5 +149,56 @@ describe('options page', () => {
     await userEvent.clear(name);
     await userEvent.type(name, 'x{Enter}');
     expect((await screen.findByRole('alert')).textContent).toBe(t('errorSaveFailed'));
+  });
+
+  describe('origin editing', () => {
+    const scheme = (envLabel: string) =>
+      within(row(envLabel)).getByRole('combobox', { name: t('schemeLabel') }) as HTMLSelectElement;
+    const host = (envLabel: string) =>
+      within(row(envLabel)).getByRole('textbox', { name: t('hostLabel') }) as HTMLInputElement;
+    const origins = async () => (await loadProjects())[0]!.environments.map((e) => e.origin);
+
+    it('changes the host on Enter and then the scheme', async () => {
+      await seed();
+      render(<App />);
+      await heading('alpha');
+      await userEvent.clear(host('Production'));
+      await userEvent.type(host('Production'), 'prod.example.com:8443{Enter}');
+      await waitFor(async () => expect(await origins()).toEqual(['https://prod.example.com:8443', 'http://example.com']));
+      await userEvent.selectOptions(scheme('Production'), 'http:');
+      await waitFor(async () => expect(await origins()).toEqual(['http://prod.example.com:8443', 'http://example.com']));
+    });
+
+    it('refuses an origin that is already registered', async () => {
+      await seed();
+      render(<App />);
+      await heading('alpha');
+      await userEvent.selectOptions(scheme('Production'), 'http:');
+      expect((await screen.findByRole('alert')).textContent).toBe(t('originTaken', 'alpha'));
+      expect(await origins()).toEqual(['https://example.com', 'http://example.com']);
+      expect(scheme('Production').value).toBe('https:');
+    });
+
+    it('rejects a host with a path and keeps the saved value', async () => {
+      await seed();
+      render(<App />);
+      await heading('alpha');
+      await userEvent.clear(host('Production'));
+      await userEvent.type(host('Production'), 'example.com/path{Enter}');
+      expect((await screen.findByRole('alert')).textContent).toBe(t('invalidHost'));
+      expect(host('Production').value).toBe('example.com');
+      expect(await origins()).toEqual(['https://example.com', 'http://example.com']);
+    });
+
+    it('ignores Enter while IME composing in the host field', async () => {
+      await seed();
+      render(<App />);
+      await heading('alpha');
+      await userEvent.clear(host('Production'));
+      await userEvent.type(host('Production'), 'new.example.com');
+      fireEvent.keyDown(host('Production'), { key: 'Enter', isComposing: true });
+      expect(document.activeElement).toBe(host('Production'));
+      expect(await origins()).toEqual(['https://example.com', 'http://example.com']);
+    });
   });
 });

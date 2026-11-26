@@ -69,5 +69,14 @@
   },
   "editProjectName": {
     "message": "Edit project name"
+  },
+  "schemeLabel": {
+    "message": "Scheme"
+  },
+  "hostLabel": {
+    "message": "Host"
+  },
+  "invalidHost": {
+    "message": "Enter a host such as example.com or localhost:3000."
   }
 }
