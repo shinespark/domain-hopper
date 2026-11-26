@@ -8,7 +8,7 @@ export function toOrigin(url: string): string | null {
   }
 }
 
-export function defaultLabel(origin: string): string {
+export function displayHost(origin: string): string {
   return toUnicodeHost(new URL(origin).host);
 }
 

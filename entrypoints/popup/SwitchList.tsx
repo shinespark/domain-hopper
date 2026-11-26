@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import type { MouseEvent as ReactMouseEvent, KeyboardEvent } from 'react';
+import type { KeyboardEvent } from 'react';
 import type { Project } from '@/lib/projects';
 import type { ActiveTab } from '@/lib/tabs';
 import { openInTab } from '@/lib/tabs';
-import { buildSwitchedUrl, defaultLabel } from '@/lib/url';
+import { buildSwitchedUrl, displayHost } from '@/lib/url';
 
 type Props = { project: Project; tab: ActiveTab; currentOrigin: string };
 
@@ -38,7 +38,7 @@ export default function SwitchList({ project, tab, currentOrigin }: Props) {
       </h2>
       <ul className="env-list">
         {project.environments.map((env, i) => {
-          const host = defaultLabel(env.origin);
+          const host = displayHost(env.origin);
           return (
             <li key={env.id}>
               <button
@@ -48,8 +48,8 @@ export default function SwitchList({ project, tab, currentOrigin }: Props) {
                 ref={(el) => {
                   refs.current[i] = el;
                 }}
-                onClick={(e: ReactMouseEvent) => go(env.origin, e.metaKey || e.ctrlKey)}
-                onAuxClick={(e: ReactMouseEvent) => {
+                onClick={(e) => go(env.origin, e.metaKey || e.ctrlKey)}
+                onAuxClick={(e) => {
                   if (e.button === 1) go(env.origin, true);
                 }}
                 onKeyDown={(e) => onKeyDown(e, i)}

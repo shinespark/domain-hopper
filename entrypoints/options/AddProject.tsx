@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { CHECK, CROSS, Icon } from '@/components/Icon';
+import { CHECK, CROSS, IconButton } from '@/components/Icon';
 import { t } from '@/lib/i18n';
 import { addProject } from '@/lib/projects';
 import type { useProjects } from '@/lib/use-projects';
+import { AddBlockButton } from './fields';
 
 export default function AddProject({ update }: { update: ReturnType<typeof useProjects>['update'] }) {
   const [open, setOpen] = useState(false);
@@ -14,14 +15,7 @@ export default function AddProject({ update }: { update: ReturnType<typeof usePr
     setName('');
   };
 
-  if (!open) {
-    return (
-      <button type="button" className="add-block" onClick={() => setOpen(true)}>
-        <span aria-hidden="true">+ </span>
-        {t('addProject')}
-      </button>
-    );
-  }
+  if (!open) return <AddBlockButton onClick={() => setOpen(true)}>{t('addProject')}</AddBlockButton>;
 
   return (
     <form
@@ -43,12 +37,8 @@ export default function AddProject({ update }: { update: ReturnType<typeof usePr
         onChange={(event) => setName(event.target.value)}
       />
       <div className="actions">
-        <button type="submit" className="icon-button" aria-label={t('confirm')} title={t('confirm')} disabled={!trimmed}>
-          <Icon path={CHECK} />
-        </button>
-        <button type="button" className="icon-button" aria-label={t('cancel')} title={t('cancel')} onClick={close}>
-          <Icon path={CROSS} />
-        </button>
+        <IconButton type="submit" label={t('confirm')} path={CHECK} disabled={!trimmed} />
+        <IconButton label={t('cancel')} path={CROSS} onClick={close} />
       </div>
     </form>
   );

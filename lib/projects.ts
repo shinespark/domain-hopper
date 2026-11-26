@@ -1,4 +1,4 @@
-import { defaultLabel } from './url';
+import { displayHost } from './url';
 
 export type Environment = { id: string; label: string; origin: string };
 export type Project = { id: string; name: string; environments: Environment[] };
@@ -23,16 +23,21 @@ function updateProject(projects: Project[], projectId: string, update: (project:
 }
 
 function newEnvironment(origin: string, label?: string): Environment {
-  return { id: crypto.randomUUID(), label: label || defaultLabel(origin), origin };
+  return { id: crypto.randomUUID(), label: label || displayHost(origin), origin };
 }
 
 export function findProjectByOrigin(projects: Project[], origin: string): Project | undefined {
   return projects.find((p) => p.environments.some((e) => e.origin === origin));
 }
 
+function originTaken(projects: Project[], origin: string, exceptEnvId?: string): OpResult | null {
+  const taken = projects.find((p) => p.environments.some((e) => e.origin === origin && e.id !== exceptEnvId));
+  return taken ? { ok: false, reason: 'origin-taken', projectName: taken.name } : null;
+}
+
 export function createProject(projects: Project[], name: string, origin: string): OpResult {
-  const taken = findProjectByOrigin(projects, origin);
-  if (taken) return { ok: false, reason: 'origin-taken', projectName: taken.name };
+  const taken = originTaken(projects, origin);
+  if (taken) return taken;
   const project: Project = { id: crypto.randomUUID(), name, environments: [newEnvironment(origin)] };
   return { ok: true, projects: [...projects, project] };
 }
@@ -42,8 +47,8 @@ export function addProject(projects: Project[], name: string): Project[] {
 }
 
 export function addEnvironment(projects: Project[], projectId: string, origin: string, label?: string): OpResult {
-  const taken = findProjectByOrigin(projects, origin);
-  if (taken) return { ok: false, reason: 'origin-taken', projectName: taken.name };
+  const taken = originTaken(projects, origin);
+  if (taken) return taken;
   return {
     ok: true,
     projects: updateProject(projects, projectId, (p) => ({
@@ -77,10 +82,8 @@ export function renameEnvironment(projects: Project[], projectId: string, envId:
 }
 
 export function changeOrigin(projects: Project[], projectId: string, envId: string, origin: string): OpResult {
-  const taken = projects.find((p) =>
-    p.environments.some((e) => e.origin === origin && !(p.id === projectId && e.id === envId)),
-  );
-  if (taken) return { ok: false, reason: 'origin-taken', projectName: taken.name };
+  const taken = originTaken(projects, origin, envId);
+  if (taken) return taken;
   return {
     ok: true,
     projects: updateProject(projects, projectId, (p) => ({
@@ -120,12 +123,12 @@ export function reconcile(order: string[], projects: Project[]): Project[] {
   }
   const rest = [...byId.values()].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
   const seen = new Set<string>();
-  return [...ordered, ...rest].map((p) => ({
-    ...p,
-    environments: p.environments.filter((e) => {
+  return [...ordered, ...rest].map((p) => {
+    const environments = p.environments.filter((e) => {
       if (seen.has(e.origin)) return false;
       seen.add(e.origin);
       return true;
-    }),
-  }));
+    });
+    return environments.length === p.environments.length ? p : { ...p, environments };
+  });
 }

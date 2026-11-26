@@ -3,6 +3,7 @@ import { t } from '@/lib/i18n';
 import { useProjects } from '@/lib/use-projects';
 import AddProject from './AddProject';
 import ProjectCard from './ProjectCard';
+import '@/assets/common.css';
 import './style.css';
 
 export default function App() {

@@ -8,6 +8,7 @@ import { useProjects } from '@/lib/use-projects';
 import Header from './Header';
 import RegisterPanel from './RegisterPanel';
 import SwitchList from './SwitchList';
+import '@/assets/common.css';
 import './style.css';
 
 export default function App() {

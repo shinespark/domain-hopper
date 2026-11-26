@@ -113,8 +113,8 @@ describe('watchProjects', () => {
     }) as never);
     const onChange = vi.fn();
     watchProjects(onChange);
-    await fakeBrowser.storage.onChanged.trigger({}, 'sync');
-    await fakeBrowser.storage.onChanged.trigger({}, 'sync');
+    await fakeBrowser.storage.onChanged.trigger({ projectOrder: {} }, 'sync');
+    await fakeBrowser.storage.onChanged.trigger({ projectOrder: {} }, 'sync');
     expect(resolvers).toHaveLength(2);
     resolvers[1]!();
     await vi.waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
@@ -128,7 +128,17 @@ describe('watchProjects', () => {
     vi.spyOn(fakeBrowser.storage.sync, 'get').mockRejectedValue(new Error('x'));
     const onError = vi.fn();
     watchProjects(vi.fn(), onError);
-    await fakeBrowser.storage.onChanged.trigger({}, 'sync');
+    await fakeBrowser.storage.onChanged.trigger({ projectOrder: {} }, 'sync');
     await vi.waitFor(() => expect(onError).toHaveBeenCalledTimes(1));
+  });
+
+  it('ignores changes to unrelated keys', async () => {
+    const get = vi.spyOn(fakeBrowser.storage.sync, 'get');
+    const onChange = vi.fn();
+    watchProjects(onChange);
+    await fakeBrowser.storage.onChanged.trigger({ somethingElse: {} }, 'sync');
+    await new Promise((r) => setTimeout(r, 20));
+    expect(get).not.toHaveBeenCalled();
+    expect(onChange).not.toHaveBeenCalled();
   });
 });

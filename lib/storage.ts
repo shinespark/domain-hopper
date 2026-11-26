@@ -36,8 +36,9 @@ export async function updateProjects(op: (current: Project[]) => OpResult | Proj
 
 export function watchProjects(onChange: (projects: Project[]) => void, onError?: (e: unknown) => void): () => void {
   let latest = 0;
-  const listener = (_changes: unknown, areaName: string) => {
+  const listener = (changes: Record<string, unknown>, areaName: string) => {
     if (areaName !== 'sync') return;
+    if (!Object.keys(changes).some((key) => key === ORDER_KEY || key.startsWith(PROJECT_PREFIX))) return;
     const seq = ++latest;
     loadProjects().then(
       (projects) => {

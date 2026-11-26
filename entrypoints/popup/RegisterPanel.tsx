@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { CHECK, Icon } from '@/components/Icon';
+import { CHECK, IconButton } from '@/components/Icon';
 import { t } from '@/lib/i18n';
 import { addEnvironment, createProject } from '@/lib/projects';
 import type { OpResult, Project } from '@/lib/projects';
-import { defaultLabel } from '@/lib/url';
+import { displayHost } from '@/lib/url';
 import type { useProjects } from '@/lib/use-projects';
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function RegisterPanel({ origin, projects, update }: Props) {
-  const host = defaultLabel(origin);
+  const host = displayHost(origin);
   const [mode, setMode] = useState<'create' | 'add' | null>(null);
   const [name, setName] = useState(host);
   const [targetId, setTargetId] = useState(projects[0]?.id ?? '');
@@ -71,15 +71,13 @@ export default function RegisterPanel({ origin, projects, update }: Props) {
               </select>
             </span>
           )}
-          <button
+          <IconButton
             type="submit"
             className="action icon-action"
-            aria-label={mode === 'create' ? t('create') : t('confirm')}
-            title={mode === 'create' ? t('create') : t('confirm')}
+            label={mode === 'create' ? t('create') : t('confirm')}
+            path={CHECK}
             disabled={mode === 'create' ? name.trim() === '' : target === ''}
-          >
-            <Icon path={CHECK} />
-          </button>
+          />
         </form>
       )}
       {taken !== null && (

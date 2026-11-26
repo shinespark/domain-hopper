@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { buildOrigin, buildSwitchedUrl, defaultLabel, toOrigin, toUnicodeHost } from '../lib/url';
+import { buildOrigin, buildSwitchedUrl, displayHost, toOrigin, toUnicodeHost } from '../lib/url';
 
 test.each([
   ['https://example.com/a?b=1#c', 'https://example.com'],
@@ -14,9 +14,9 @@ test.each([
 test.each(['chrome://extensions', 'file:///tmp/a.html', 'about:blank', 'view-source:https://example.com', 'not a url', ''])(
   'toOrigin(%s) は null', (url) => expect(toOrigin(url)).toBeNull());
 
-test('defaultLabel はポートを含むホスト', () => {
-  expect(defaultLabel('http://localhost:3000')).toBe('localhost:3000');
-  expect(defaultLabel('https://stg1.example.com')).toBe('stg1.example.com');
+test('displayHost はポートを含むホスト', () => {
+  expect(displayHost('http://localhost:3000')).toBe('localhost:3000');
+  expect(displayHost('https://stg1.example.com')).toBe('stg1.example.com');
 });
 
 test('buildSwitchedUrl はパス・クエリ・ハッシュを引き継ぐ', () => {
@@ -57,6 +57,6 @@ describe('toUnicodeHost', () => {
   test('日本語ドメインは入力から origin を作り、表示用に戻せる', () => {
     const origin = buildOrigin('https:', '日本語.jp')!;
     expect(origin).toBe('https://xn--wgv71a119e.jp');
-    expect(defaultLabel(origin)).toBe('日本語.jp');
+    expect(displayHost(origin)).toBe('日本語.jp');
   });
 });
