@@ -77,6 +77,16 @@ describe('updateProjects', () => {
   });
 });
 
+describe('updateProjects remove failure', () => {
+  it('rejects and leaves storage unchanged when remove fails', async () => {
+    const a = await create('A', 'https://a.example.com');
+    const before = await fakeBrowser.storage.sync.get(null);
+    vi.spyOn(fakeBrowser.storage.sync, 'remove').mockRejectedValue(new Error('boom'));
+    await expect(updateProjects((p) => removeProject(p, a.id))).rejects.toThrow('boom');
+    expect(await fakeBrowser.storage.sync.get(null)).toEqual(before);
+  });
+});
+
 describe('watchProjects', () => {
   it('notifies with the latest projects and stops after unsubscribe', async () => {
     const onChange = vi.fn();
@@ -88,5 +98,37 @@ describe('watchProjects', () => {
     await create('B', 'https://b.example.com');
     await new Promise((r) => setTimeout(r, 20));
     expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('delivers the newer snapshot last when reloads resolve out of order', async () => {
+    const a = await create('A', 'https://a.example.com');
+    const b = await create('B', 'https://b.example.com');
+    const real = fakeBrowser.storage.sync.get.bind(fakeBrowser.storage.sync);
+    const resolvers: (() => void)[] = [];
+    vi.spyOn(fakeBrowser.storage.sync, 'get').mockImplementation(((keys: never) => {
+      const snapshot = real(keys);
+      return new Promise((resolve) => {
+        resolvers.push(() => resolve(snapshot));
+      });
+    }) as never);
+    const onChange = vi.fn();
+    watchProjects(onChange);
+    await fakeBrowser.storage.onChanged.trigger({}, 'sync');
+    await fakeBrowser.storage.onChanged.trigger({}, 'sync');
+    expect(resolvers).toHaveLength(2);
+    resolvers[1]!();
+    await vi.waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+    resolvers[0]!();
+    await new Promise((r) => setTimeout(r, 20));
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenLastCalledWith([a, b]);
+  });
+
+  it('reports load failures to onError', async () => {
+    vi.spyOn(fakeBrowser.storage.sync, 'get').mockRejectedValue(new Error('x'));
+    const onError = vi.fn();
+    watchProjects(vi.fn(), onError);
+    await fakeBrowser.storage.onChanged.trigger({}, 'sync');
+    await vi.waitFor(() => expect(onError).toHaveBeenCalledTimes(1));
   });
 });

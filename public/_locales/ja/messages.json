@@ -7,5 +7,8 @@
   },
   "errorSaveFailed": {
     "message": "保存できませんでした。少し待ってからもう一度お試しください。"
+  },
+  "errorLoadFailed": {
+    "message": "プロジェクトを読み込めませんでした。開き直してください。"
   }
 }

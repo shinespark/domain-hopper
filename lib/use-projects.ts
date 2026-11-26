@@ -13,12 +13,17 @@ export function useProjects(): {
 
   useEffect(() => {
     let active = true;
-    void loadProjects().then((loaded) => {
+    const fail = () => {
+      if (!active) return;
+      setError(t('errorLoadFailed'));
+      setProjects((current) => current ?? []);
+    };
+    loadProjects().then((loaded) => {
       if (active) setProjects(loaded);
-    });
+    }, fail);
     const unwatch = watchProjects((latest) => {
       if (active) setProjects(latest);
-    });
+    }, fail);
     return () => {
       active = false;
       unwatch();

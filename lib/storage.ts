@@ -29,15 +29,24 @@ export async function updateProjects(op: (current: Project[]) => OpResult | Proj
   const orderChanged = JSON.stringify(current.map((p) => p.id)) !== JSON.stringify(next.map((p) => p.id));
   if (orderChanged) changed[ORDER_KEY] = next.map((p) => p.id);
 
-  if (Object.keys(changed).length > 0) await browser.storage.sync.set(changed);
   if (removed.length > 0) await browser.storage.sync.remove(removed);
+  if (Object.keys(changed).length > 0) await browser.storage.sync.set(changed);
   return result;
 }
 
-export function watchProjects(onChange: (projects: Project[]) => void): () => void {
+export function watchProjects(onChange: (projects: Project[]) => void, onError?: (e: unknown) => void): () => void {
+  let latest = 0;
   const listener = (_changes: unknown, areaName: string) => {
     if (areaName !== 'sync') return;
-    void loadProjects().then(onChange);
+    const seq = ++latest;
+    loadProjects().then(
+      (projects) => {
+        if (seq === latest) onChange(projects);
+      },
+      (e) => {
+        if (seq === latest) onError?.(e);
+      },
+    );
   };
   browser.storage.onChanged.addListener(listener);
   return () => browser.storage.onChanged.removeListener(listener);
