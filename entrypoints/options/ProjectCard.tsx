@@ -16,19 +16,23 @@ type Update = ReturnType<typeof useProjects>['update'];
 function EditableText({
   value,
   label,
+  autoFocus,
   onCommit,
+  onDone,
 }: {
   value: string;
   label: string;
+  autoFocus?: boolean;
   onCommit: (next: string) => Promise<unknown>;
+  onDone?: () => void;
 }) {
   const [draft, setDraft] = useState<string | null>(null);
 
   const commit = async () => {
-    if (draft === null) return;
-    const next = draft.trim();
+    const next = draft?.trim();
     if (next && next !== value) await onCommit(next);
     setDraft(null);
+    onDone?.();
   };
 
   return (
@@ -37,12 +41,58 @@ function EditableText({
       aria-label={label}
       title={draft ?? value}
       value={draft ?? value}
+      autoFocus={autoFocus}
       onChange={(event) => setDraft(event.target.value)}
       onBlur={commit}
       onKeyDown={(event) => {
         if (event.key === 'Enter' && !event.nativeEvent.isComposing) event.currentTarget.blur();
       }}
     />
+  );
+}
+
+function ProjectName({ name, onCommit }: { name: string; onCommit: (next: string) => Promise<unknown> }) {
+  const [editing, setEditing] = useState(false);
+
+  if (editing) {
+    return (
+      <EditableText
+        value={name}
+        label={t('projectNameLabel')}
+        autoFocus
+        onCommit={onCommit}
+        onDone={() => setEditing(false)}
+      />
+    );
+  }
+
+  return (
+    <div className="project-title">
+      <h2 className="project-name" title={name}>
+        {name}
+      </h2>
+      <button
+        type="button"
+        className="icon-button"
+        aria-label={t('editProjectName')}
+        title={t('editProjectName')}
+        onClick={() => setEditing(true)}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+          aria-hidden="true"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4" />
+        </svg>
+      </button>
+    </div>
   );
 }
 
@@ -136,9 +186,8 @@ export default function ProjectCard({
   return (
     <li className="project">
       <div className="row">
-        <EditableText
-          value={project.name}
-          label={t('projectNameLabel')}
+        <ProjectName
+          name={project.name}
           onCommit={(name) => update((current) => renameProject(current, project.id, name))}
         />
         <RowActions

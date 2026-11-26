@@ -66,5 +66,8 @@
   },
   "confirmDeleteEnvironment": {
     "message": "この環境を削除しますか？"
+  },
+  "editProjectName": {
+    "message": "プロジェクト名を編集"
   }
 }

@@ -50,6 +50,23 @@ body {
   min-width: 0;
 }
 
+.project-title {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.project-name {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .text-input {
   flex: 1;
   min-width: 0;

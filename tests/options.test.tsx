@@ -22,8 +22,14 @@ async function seed(projects: (typeof p1)[] = [p1, p2]) {
   await fakeBrowser.storage.sync.set(items);
 }
 
-const row = (value: string) => screen.getByDisplayValue(value).closest('li') as HTMLElement;
+const row = (value: string) =>
+  (screen.queryByDisplayValue(value) ?? screen.getByRole('heading', { name: value })).closest('li') as HTMLElement;
 const btn = (scope: HTMLElement, key: Parameters<typeof t>[0]) => within(scope).getAllByRole('button', { name: t(key) })[0]!;
+const heading = (name: string) => screen.findByRole('heading', { level: 2, name });
+async function editName(name: string) {
+  await userEvent.click(btn(row(name), 'editProjectName'));
+  return screen.getByDisplayValue(name) as HTMLInputElement;
+}
 
 afterEach(cleanup);
 
@@ -37,9 +43,10 @@ describe('options page', () => {
   it('lists projects in order with full origins and sets the title', async () => {
     await seed();
     render(<App />);
-    await screen.findByDisplayValue('alpha');
-    const names = screen.getAllByRole('textbox', { name: t('projectNameLabel') }).map((i) => (i as HTMLInputElement).value);
+    await heading('alpha');
+    const names = screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent);
     expect(names).toEqual(['alpha', 'beta']);
+    expect(screen.queryByRole('textbox', { name: t('projectNameLabel') })).toBeNull();
     expect(screen.getByText('https://example.com')).toBeTruthy();
     expect(screen.getByText('http://example.com')).toBeTruthy();
     expect(document.title).toBe(t('optionsTitle'));
@@ -54,7 +61,8 @@ describe('options page', () => {
   it('ignores Enter while IME composing', async () => {
     await seed();
     render(<App />);
-    const name = (await screen.findByDisplayValue('alpha')) as HTMLInputElement;
+    await heading('alpha');
+    const name = await editName('alpha');
     await userEvent.clear(name);
     await userEvent.type(name, 'gamma');
     fireEvent.keyDown(name, { key: 'Enter', isComposing: true });
@@ -66,10 +74,14 @@ describe('options page', () => {
   it('renames a project on Enter and an environment on blur', async () => {
     await seed();
     render(<App />);
-    const name = await screen.findByDisplayValue('alpha');
+    await heading('alpha');
+    const name = await editName('alpha');
+    expect(document.activeElement).toBe(name);
     await userEvent.clear(name);
     await userEvent.type(name, 'gamma{Enter}');
     await waitFor(async () => expect((await loadProjects())[0]!.name).toBe('gamma'));
+    expect(await heading('gamma')).toBeTruthy();
+    expect(screen.queryByRole('textbox', { name: t('projectNameLabel') })).toBeNull();
     const label = screen.getByDisplayValue('Production');
     await userEvent.clear(label);
     await userEvent.type(label, 'Prod');
@@ -80,17 +92,18 @@ describe('options page', () => {
   it('reverts a whitespace-only name without saving', async () => {
     await seed();
     render(<App />);
-    const name = await screen.findByDisplayValue('alpha');
+    await heading('alpha');
+    const name = await editName('alpha');
     await userEvent.clear(name);
     await userEvent.type(name, '   {Enter}');
-    await waitFor(() => expect((screen.getAllByRole('textbox')[0]! as HTMLInputElement).value).toBe('alpha'));
+    expect(await heading('alpha')).toBeTruthy();
     expect((await loadProjects())[0]!.name).toBe('alpha');
   });
 
   it('reorders projects and environments', async () => {
     await seed();
     render(<App />);
-    await screen.findByDisplayValue('alpha');
+    await heading('alpha');
     await userEvent.click(btn(row('beta'), 'moveUp'));
     await waitFor(async () => expect((await loadProjects()).map((p) => p.id)).toEqual(['p2', 'p1']));
     await userEvent.click(btn(row('Insecure'), 'moveUp'));
@@ -102,7 +115,7 @@ describe('options page', () => {
   it('asks for confirmation before deleting, and can cancel', async () => {
     await seed();
     render(<App />);
-    await screen.findByDisplayValue('alpha');
+    await heading('alpha');
     const env = row('Insecure');
     await userEvent.click(btn(env, 'delete'));
     await userEvent.click(btn(env, 'cancel'));
@@ -120,15 +133,16 @@ describe('options page', () => {
   it('reflects changes made on another device', async () => {
     await seed();
     render(<App />);
-    await screen.findByDisplayValue('alpha');
+    await heading('alpha');
     await fakeBrowser.storage.sync.set({ 'project:p1': { ...p1, name: 'remote' } });
-    expect(await screen.findByDisplayValue('remote')).toBeTruthy();
+    expect(await heading('remote')).toBeTruthy();
   });
 
   it('shows an alert when saving fails', async () => {
     await seed();
     render(<App />);
-    const name = await screen.findByDisplayValue('alpha');
+    await heading('alpha');
+    const name = await editName('alpha');
     vi.spyOn(fakeBrowser.storage.sync, 'set').mockRejectedValue(new Error('quota'));
     await userEvent.clear(name);
     await userEvent.type(name, 'x{Enter}');

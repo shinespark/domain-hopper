@@ -66,5 +66,8 @@
   },
   "confirmDeleteEnvironment": {
     "message": "Delete this environment?"
+  },
+  "editProjectName": {
+    "message": "Edit project name"
   }
 }
