@@ -22,7 +22,7 @@ A Chrome extension that switches the current tab to another environment of the s
 - `activeTab`: reads the current tab's URL only when you press the toolbar button.
 - `storage`: saves your projects in `chrome.storage.sync`.
 
-No network requests are made. See [PRIVACY.md](PRIVACY.md). Store listing text is in `docs/store/`.
+No network requests are made. See the [privacy policy](https://shinespark.github.io/domain-hopper/privacy-policy/en/). Store listing text is in `docs/store/`.
 
 ## Development
 
@@ -40,4 +40,4 @@ npm run zip      # build the zip for the Chrome Web Store
 - 今のページをプロジェクトとして登録するか、既存のプロジェクトに環境として追加します。
 - ポップアップで環境をクリックすると切り替わります。Cmd/Ctrl を押しながらクリックするか中クリックすると、今のタブの右隣にバックグラウンドで開きます。
 - 歯車アイコンから開く設定ページで、プロジェクトや環境の追加、スキームやホストの変更、プロジェクトと環境の名前変更・並べ替え・削除ができます。
-- 権限は `activeTab` と `storage` だけです。通信は一切行いません。詳しくは [PRIVACY.md](PRIVACY.md) を参照してください。
+- 権限は `activeTab` と `storage` だけです。通信は一切行いません。詳しくは[プライバシーポリシー](https://shinespark.github.io/domain-hopper/privacy-policy/ja/)を参照してください。
