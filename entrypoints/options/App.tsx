@@ -1,5 +1,34 @@
+import { useEffect } from 'react';
 import { t } from '@/lib/i18n';
+import { useProjects } from '@/lib/use-projects';
+import ProjectCard from './ProjectCard';
+import './style.css';
 
 export default function App() {
-  return <h1>{t('extName')}</h1>;
+  const { projects, error, update } = useProjects();
+
+  useEffect(() => {
+    document.title = t('optionsTitle');
+  }, []);
+
+  return (
+    <main className="options">
+      <h1>{t('extName')}</h1>
+      {error && <p role="alert" className="error">{error}</p>}
+      {projects && projects.length === 0 && <p>{t('noProjects')}</p>}
+      {projects && projects.length > 0 && (
+        <ul className="project-list">
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+              count={projects.length}
+              update={update}
+            />
+          ))}
+        </ul>
+      )}
+    </main>
+  );
 }

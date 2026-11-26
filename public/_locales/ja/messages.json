@@ -36,5 +36,32 @@
   },
   "confirm": {
     "message": "追加"
+  },
+  "optionsTitle": {
+    "message": "domain-hopper 設定"
+  },
+  "noProjects": {
+    "message": "プロジェクトがありません。ページを開いてツールバーのボタンから登録してください。"
+  },
+  "environmentLabel": {
+    "message": "環境のラベル"
+  },
+  "moveUp": {
+    "message": "上へ"
+  },
+  "moveDown": {
+    "message": "下へ"
+  },
+  "delete": {
+    "message": "削除"
+  },
+  "cancel": {
+    "message": "キャンセル"
+  },
+  "confirmDeleteProject": {
+    "message": "このプロジェクトと配下の環境をすべて削除しますか？"
+  },
+  "confirmDeleteEnvironment": {
+    "message": "この環境を削除しますか？"
   }
 }

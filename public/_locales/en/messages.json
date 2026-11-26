@@ -36,5 +36,32 @@
   },
   "confirm": {
     "message": "Add"
+  },
+  "optionsTitle": {
+    "message": "domain-hopper settings"
+  },
+  "noProjects": {
+    "message": "No projects yet. Open a page and register it from the toolbar button."
+  },
+  "environmentLabel": {
+    "message": "Environment label"
+  },
+  "moveUp": {
+    "message": "Move up"
+  },
+  "moveDown": {
+    "message": "Move down"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "confirmDeleteProject": {
+    "message": "Delete this project and all its environments?"
+  },
+  "confirmDeleteEnvironment": {
+    "message": "Delete this environment?"
   }
 }
